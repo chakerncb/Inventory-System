@@ -3,9 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Expanding Forms</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+        }
+        .form-container {
+            display: flex;
+            width: 80%;
+            height: 60%;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .form-card{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: flex 0.5s ease, background-color 0.5s ease;
+            color: rgb(255, 255, 255);
+            padding: 20px;
+            text-align: center;
+        }
+        .form-card2{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: flex 0.5s ease, background-color 0.5s ease;
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            text-align: center;
+        }
+        .form-card:first-child {
+            background-color: #1a23a8; /* color for Login */
+        }
+        .form-card:last-child {
+            background-color: #ffffff; /* color for Sign Up */
+        }
+        .form-card:hover {
+            flex: 4;
+        }
+        .form-card:not(:hover) {
+            flex: 1;
+        }
+        .form-card h2 {
+            margin-bottom: 20px;
+        }
+        .form-card form {
+            width: 100%;
+            max-width: 300px;
+        }
+        .form-card .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .zoom-input {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 5px;
+        }
+
+         .zoom-input:hover {
+        transform: scale(1.1); 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+         }
+
+        .zoom-input:focus {
+        transform: scale(1.2);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        outline: none;
+        }
+    </style>
+    
 </head>
 <body>
-    <h1> let's begin !!</h1>
+    <div class="form-container">
+    <!-- Login Form -->
+    <div class="form-card">
+        <h2>Login</h2>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="login-identifier">Email or Phone</label>
+                <input type="text" class="form-control zoom-input" id="login-identifier" name="identifier" placeholder="Enter Email or Phone" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" class="form-control zoom-input" id="login-password" name="psw" placeholder="Enter Password" required>
+            </div>
+            <button type="submit" class="btn btn-light">Login</button>
+        </form>
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="form-card">
+        <h2 style="color: black;">Sign Up</h2>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" class="form-control zoom-input" id="signup-email" name="email" placeholder="Enter Email" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-phone">Phone Number</label>
+                <input type="tel" class="form-control zoom-input" id="signup-phone" name="phone" placeholder="Enter Phone Number" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" class="form-control zoom-input" id="signup-password" name="psw" placeholder="Enter Password" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-repeat-password">Repeat Password</label>
+                <input type="password" class="form-control zoom-input" id="signup-repeat-password" name="psw-repeat" placeholder="Repeat Password" required>
+            </div>
+            <button type="submit" class="btn btn-dark">Sign Up</button>
+        </form>
+    </div>
+</div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
 </body>
+<script src="script.mjs"></script>
 </html>
