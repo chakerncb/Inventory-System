@@ -1,12 +1,12 @@
-
-const mysql = require('mysql');
+const env = require('dotenv').config();
+const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: 'localhost',     // host for connection
-    port: 3306,            // default port for mysql is 3306
-    database: 'inventory-db',      // database from which we want to connect our node application
-    user: 'root',          // username of the mysql connection
-    password: 'chaker'       // password of the mysql connection
+    host: process.env.DB_HOST,     
+    port: process.env.DB_PORT,        
+    database: process.env.DB_DATABASE,   
+    user: process.env.DB_USERNAME,     
+    password: process.env.DB_PASSWORD 
 });
 
 connection.connect(function(err) {
@@ -16,3 +16,4 @@ connection.connect(function(err) {
         console.log("connection created with mysql successfully");
     }
 });
+
