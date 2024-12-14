@@ -1,4 +1,10 @@
 
+NOTES:
+    
+    - i use ejs for the views its a template engine for nodejs that allows me to use javascript in the html files.
+    - i use express for the server with MVC pattern.
+    - i use MySQL for the database.
+
 
 
  #todo:
@@ -6,5 +12,13 @@
      
     front:
          
-        - sign in  
-        - dashboard (dont miss the names of the inputs).
+        - Change this boring design.
+
+
+    back:
+        
+        - connect to the database. @done
+        - make login & register routes. @done
+        - create authController. @done
+        - make register function in authController. @done
+        - make login function in authController. @started
