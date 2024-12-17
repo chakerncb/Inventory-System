@@ -1,108 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HELLO| Registration Page</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 from CDN -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <!-- Font Awesome from CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Ionicons from CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6-0/css/ionicons.min.css">
-  <!-- AdminLTE from CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.18/css/AdminLTE.min.css">
-  <!-- iCheck from CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/square/blue.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>AdminLTE 4 | Register Page v2</title>
+    <!--begin::Primary Meta Tags-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Register Page ">
+    <meta name="author" content="ColorlibHQ">
+    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS.">
+    <meta name="keywords" content="bootstrap 5, bootstrap, admin dashboard, vanilla js, colorlibhq">
+    <!--end::Primary Meta Tags-->
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous">
+
+    <!-- Third Party CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css">
+    
+    <!-- Required Plugin(AdminLTE) -->
+    <link rel="stylesheet" href="../../public/assets/css/adminlte.css">
+  <!-- International Telephone Input CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    
+    
+  
 </head>
-<body class="hold-transition register-page">
-<div class="register-box">
-  <div class="register-logo">
-    <a href="../../index2.html"><b>Register</b></a>
-  </div>
 
-  <div class="register-box-body">
-    <p class="login-box-msg">Register a new membership</p>
+<body class="register-page bg-p bg-gradient">
+    <div class="row">
+        <div class="register-box col-md-6">
+            <!-- Card -->
+            <div class="card card-outline card-primary m-n5">
+                <div class="card-header">
+                    <a href="../home.html" class="link-dark text-center link-offset-2 link-opacity-100 link-opacity-50-hover">
+                        <h1 class="mb-0"><b>INVENTORY</b> ERP</h1>
+                    </a>
+                </div>
+                <div class="card-body register-card-body">
+                    <p class="register-box-msg">Register a new membership</p>
+                    <form action="#" method="post">
+                        <!-- Full Name -->
+                        <div class="input-group mb-1">
+                            <div class="form-floating">
+                                <input name="name" id="registerFullName" type="text" class="form-control" placeholder="">
+                                <label for="registerFullName">Full Name</label>
+                            </div>
+                            <div class="input-group-text"><span class="bi bi-person"></span></div>
+                        </div>
 
-    <br>
-    <% if (typeof message !== 'undefined' && message) { %>
-      <div class="alert alert-danger alert-dismissible">
-        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-        <%= message %>
-      </div>
-      <% } %>
-      <br>
+                        <!-- Phone Number -->
+                        <div class="input-group mb-1">
+                            <div class="form-floating">
+                                <input name="phone" id="registerphone" type="tel" class="form-control" placeholder="Phone Number">
+                               
+                            </div>
+                            <div class="input-group-text">
+                                <span class="bi bi-telephone"></span>
+                            </div>
+                        </div>
+                        
 
-    <form action="/register" method="post">
-      <div class="form-group has-feedback">
-        <input name="name" type="text" class="form-control" placeholder="Full name">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input name="email" type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input name="phone" type="phone" class="form-control" placeholder="phone">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input name="password" type="password" class="form-control" placeholder="Password">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input name="confirmPassword" type="password" class="form-control" placeholder="Retype password">
-        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> I agree to the <a href="#">terms</a>
-            </label>
-          </div>
+                        <!-- Email -->
+                        <div class="input-group mb-1">
+                            <div class="form-floating">
+                                <input name="email" id="registerEmail" type="email" class="form-control" placeholder="">
+                                <label for="registerEmail">Email</label>
+                            </div>
+                            <div class="input-group-text"><span class="bi bi-envelope"></span></div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="input-group mb-1">
+                            <div class="form-floating">
+                                <input name="password" id="registerPassword" type="password" class="form-control" placeholder="">
+                                <label for="registerPassword">Password</label>
+                            </div>
+                            <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
+                        </div>
+
+                        <!-- Terms & Submit -->
+                        <div class="row">
+                            <div class="col-8 d-inline-flex align-items-center">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">I agree to the <a href="#">terms</a></label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">Sign In</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Social Login -->
+                    <div class="social-auth-links text-center mb-3 d-grid gap-2">
+                        <p>- OR -</p>
+                        <a href="#" class="btn btn-primary"><i class="bi bi-facebook me-2"></i> Sign in using Facebook</a>
+                        <a href="#" class="btn btn-danger"><i class="bi bi-google me-2"></i> Sign in using Google+</a>
+                    </div>
+
+                    <p class="mb-0">
+                        <a href="login.html" class="link-primary text-center">I already have a membership</a>
+                    </p>
+                </div>
+            </div>
         </div>
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
-
-    <div class="social-auth-links text-center">
-      <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using
-        Google+</a>
     </div>
 
-    <a href="/login" class="text-center">I already have a membership</a>
-  </div>
-  <!-- /.form-box -->
-</div>
-<!-- /.register-box -->
+    <!-- Third Party JS -->
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="../../public/assets/js/adminlte.js"></script>
 
-<!-- jQuery 3 from CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 from CDN -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- iCheck from CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' /* optional */
-    });
-  });
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        // Initialize the intl-tel-input plugin
+        const phoneInputField = document.querySelector("#registerphone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            preferredCountries: ["us", "gb", "fr"],
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            separateDialCode: true, // Show the country code next to the flag
+        });
+    
+        // Attach an event listener to the form to format the phone number
+        const form = document.querySelector("form");
+    
+        form.addEventListener("submit", function (event) {
+            // Prevent form submission for demonstration purposes
+            event.preventDefault();
+    
+            // Get the full international phone number
+            const fullPhoneNumber = phoneInput.getNumber();
+    
+            // Set the formatted number back into the input
+            phoneInputField.value = fullPhoneNumber;
+    
+            // Log the full number (you can submit it in a real form)
+            console.log("Formatted Phone Number:", fullPhoneNumber);
+    
+            // Submit the form
+            form.submit();
+        });
+    </script>
 </body>
 </html>

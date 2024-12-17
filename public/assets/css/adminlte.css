@@ -15377,3 +15377,33 @@ html.maximized-card {
 }
 
 /*# sourceMappingURL=adminlte.css.map */
+/* Make the intl-tel-input container behave like Bootstrap inputs */
+.iti {
+  display: block;
+  width: 100%;
+}
+
+/* Ensure the input has padding to accommodate the flag dropdown */
+.iti input.form-control {
+  padding-left: 50px; /* Adds space for the country flag*/
+}
+ 
+/* Style the flag dropdown button*/
+.iti__selected-flag {
+  background-color: #fff;
+  border-right: 1px solid #ced4da; /* Matches Bootstrap input border */
+  border-radius: 5px 0 0 5px;/* Rounded edge on the left */
+  padding: 0 10px;  /*Adds spacing inside the flag dropdown*/
+} 
+ 
+/* Optional: Align the dropdown flag with the input text */
+.iti__country-list {
+  text-align: left;
+  width: auto;
+}
+
+/* Optional: Match dropdown style to AdminLTE theme*/
+.iti__country {
+  font-size: 14px;
+  padding: 5px 10px;
+} 
