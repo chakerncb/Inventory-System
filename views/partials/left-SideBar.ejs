@@ -1,46 +1,110 @@
-  <!-- Left side column. contains the sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-      </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+  <!-- Sidebar Brand -->
+  <div class="sidebar-brand">
+    <!-- Sidebar Brand Link -->
+    <a href="../index.html" class="brand-link">
+      <span class="brand-text fw-bold">INVENTORY ERP</span>
+    </a>
+  </div>
+
+  <!-- Sidebar Wrapper -->
+  <div class="sidebar-wrapper">
+    <nav class="mt-2">
+      <!-- Sidebar Menu -->
+      <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+
+        <!-- Dashboard Section -->
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon bi bi-speedometer"></i>
+            <p>
+              
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="../../index.html" class="nav-link">
+                <i class="nav-icon bi bi-circle"></i>
+                <p>Dashboard v1</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="../../index2.html" class="nav-link">
+                <i class="nav-icon bi bi-circle"></i>
+                <p>Dashboard v2</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="../../index3.html" class="nav-link">
+                <i class="nav-icon bi bi-circle"></i>
+                <p>Dashboard v3</p>
+              </a>
+            </li>
           </ul>
         </li>
-        
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
 
- 
+        <!-- Theme Generate -->
+        <li class="nav-item">
+          <a href="../../generate/theme.html" class="nav-link">
+            <i class="nav-icon bi bi-palett"></i>
+            <p>Theme Generate</p>
+          </a>
+        </li>
+
+        <!-- Widgets Section -->
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon bi bi-box-seam-fill"></i>
+            <p>
+              Prodects
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="procacts.html" class="nav-link">
+               <i class="nav-icon bi bi-plus-lg"></i>
+                <p>Add prodect</p>
+                
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="../../widgets/info-box.html" class="nav-link">
+                <i class="nav-icon bi bi-circle"></i>
+                <p>Info Box</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="../../widgets/cards.html" class="nav-link">
+                <i class="nav-icon bi bi-circle"></i>
+                <p>Cards</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Layout Options Section -->
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon bi bi-clipboard-fill"></i>
+            <p>
+              Layout Options
+              <span class="nav-badge badge text-bg-secondary me-3">1</span>
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="../../layout/unfixed-sidebar.html" class="nav-link">
+                <i class="nav-icon bi bi-circle"></i>
+                <p>Default Sidebar</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>
+s
