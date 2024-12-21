@@ -68,8 +68,8 @@ router.get('/register', (req, res) => {
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
 
-router.get('/category', (req, res) => {
-    res.render('category');
+router.get('/categories', (req, res) => {
+    res.render('categories');
 });
 
 module.exports = router;

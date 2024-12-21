@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AdminLTE v4 | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../public/assets/css/adminlte.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
+    <style>
+        .right-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #343a40;
+            color: #fff;
+            border-left: 1px solid #4b5563;
+            overflow-y: auto;
+            padding: 1rem;
+            transition: transform 0.3s ease-in-out;
+        }
+        .right-sidebar.d-none {
+            transform: translateX(100%);
+        }
+        .sidebar-brand {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+    </style>
+  </head>
+  <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded sidebar-collapse">
+    <div class="app-wrapper">
+        <%- include('partials/header') %>
+        <%- include('partials/left-Sidebar') %>
+        
+        <main class="app-main"> 
+            <div class="app-content-header"> 
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3>Product Management</h3>
+                            <button id="toggleRightSidebar" class="btn btn-primary" onclick="toggleRightSidebar()">Toggle Sidebar</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-end">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Product Management</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="app-content"> 
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Manage Your Products</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-start mb-3">
+                                        <button class="btn btn-outline-light text-dark fw-bold" onclick="openProductForm()">+ Add New Product</button>
+                                    </div>
+                                    <h4 class="mt-5">Products List</h4>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-sidebar d-none" id="rightSidebar">
+            <div class="sidebar-brand">
+                <span class="brand-text">Categories</span>
+            </div>
+            <nav>
+                <ul class="nav flex-column" id="categoryList">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class="nav-icon bi bi-folder"></i> Category 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class="nav-icon bi bi-folder"></i> Category 2</a>
+                    </li>
+                </ul>
+                <button class="btn btn-success mt-3" onclick="addNewCategory()">+ Add Category</button>
+            </nav>
+        </aside>
+        <%- include('partials/footer') %>
+    </div>
+
+    <script>
+        // Toggle Right Sidebar
+        function toggleRightSidebar() {
+            const sidebar = document.getElementById('rightSidebar');
+            sidebar.classList.toggle('d-none');
+        }
+    
+        // Add New Category
+        function addNewCategory() {
+            const categoryName = prompt("Enter category name:");
+            if (categoryName) {
+                const categoryList = document.getElementById('categoryList');
+    
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+    
+                const link = document.createElement('a');
+                link.href = '#';
+                link.className = 'nav-link d-flex justify-content-between align-items-center';
+                link.innerHTML = `
+                    <span>${categoryName}</span>
+                    <button class="btn btn-sm btn-danger ms-2" onclick="deleteCategory(this)">Delete</button>
+                `;
+    
+                li.appendChild(link);
+                categoryList.appendChild(li);
+            }
+        }
+    
+        // Delete Category
+        function deleteCategory(button) {
+            button.closest('li').remove();
+        }
+    
+        // Add New Product
+        function openProductForm() {
+            const productName = prompt("Enter product name:");
+            const productDescription = prompt("Enter product description:");
+    
+            if (productName && productDescription) {
+                const productTableBody = document.getElementById('productTableBody');
+    
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${productTableBody.rows.length + 1}</td>
+                    <td>${productName}</td>
+                    <td>${productDescription}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="deleteProduct(this)">Delete</button>
+                    </td>
+                `;
+    
+                productTableBody.appendChild(row);
+            } else {
+                alert("Product name and description cannot be empty!");
+            }
+        }
+    
+        // Delete Product
+        function deleteProduct(button) {
+            button.closest('tr').remove();
+        }
+    </script>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js"></script>
+    <script src="../public/assets/js/adminlte.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
+  </body>
+</html>
