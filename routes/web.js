@@ -6,9 +6,56 @@ const AuthController = require('../controllers/AuthController');
 
 const viewsDir = path.join(__dirname, '/../views');
 
+
 router.get('/', (req, res) => {
-    res.render('index');
+    res.render('homePage');
 });
+
+
+router.get('/admin/', (req, res) => {
+    res.render('admin/dashboard');
+});
+
+
+router.get('/admin/login', (req, res) => {
+    res.render('admin/login');
+});
+
+
+router.get('/admin/products', (req, res) => {
+    res.render('admin/products');
+});
+
+
+router.get('/admin/orders', (req, res) => {
+    res.render('admin/orders');
+});
+
+
+router.get('/admin/employees', (req, res) => {
+    res.render('admin/employees');
+});
+
+
+router.get('/admin/settings', (req, res) => {
+    res.render('admin/settings');
+});
+
+
+router.get('/admin/suppliers', (req, res) => {
+    res.render('admin/suppliers');
+});
+
+
+router.get('/admin/wearHouses', (req, res) => {
+    res.render('admin/wearHouses');
+});
+
+
+
+
+
+
 
 router.get('/login', (req, res) => {
     res.render('auth/login');
