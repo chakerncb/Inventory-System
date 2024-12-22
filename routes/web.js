@@ -18,7 +18,7 @@ router.get('/admin/', (req, res) => {
 
 
 router.get('/admin/login', (req, res) => {
-    res.render('admin/login');
+    res.render('admin/auth/login');
 });
 
 
