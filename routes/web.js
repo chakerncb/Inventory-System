@@ -47,8 +47,8 @@ router.get('/admin/suppliers', (req, res) => {
 });
 
 
-router.get('/admin/wearHouses', (req, res) => {
-    res.render('admin/wearHouses');
+router.get('/admin/wareHouses', (req, res) => {
+    res.render('admin/wareHouses');
 });
 
 
