@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>AdminLTE v4 | Dashboard</title>
+    <title>AdminLTE v4 | Warehouse Management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard.">
+    <meta name="description" content="AdminLTE Warehouse Management Dashboard">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css">
@@ -48,13 +48,13 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h3>Employee Management</h3>
-                            <button id="openFormButton" class="btn btn-primary" onclick="openEmployeeForm()">+ Add New Employee</button>
+                            <h3>Warehouse Management</h3>
+                            <button id="openFormButton" class="btn btn-primary" onclick="openWarehouseForm()">+ Add New Warehouse</button>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-end">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Employee Management</li>
+                                <li class="breadcrumb-item active">Warehouse Management</li>
                             </ol>
                         </div>
                     </div>
@@ -66,23 +66,22 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Manage Your Employees</h3>
+                                    <h3 class="card-title">Manage Warehouses</h3>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="mt-5">Employee List</h4>
+                                    <h4 class="mt-5">Warehouse List</h4>
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
+                                                <th>Capacity</th>
+                                                <th>Address</th>
+                                                <th>Description</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="employeeTableBody"></tbody>
+                                        <tbody id="warehouseTableBody"></tbody>
                                     </table>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -93,60 +92,43 @@
         <%- include('partials/footer') %>
     </div>
 
-    <!-- Employee Form Modal -->
-    <div id="employeeFormModal" class="modal-form">
+    <!-- Warehouse Form Modal -->
+    <div id="warehouseFormModal" class="modal-form">
         <div class="modal-content">
             <div class="modal-header">
-                <h5>Add New Employee</h5>
-                <button type="button" class="btn-close" onclick="closeEmployeeForm()"></button>
+                <h5>Add New Warehouse</h5>
+                <button type="button" class="btn-close" onclick="closeWarehouseForm()"></button>
             </div>
-            <form id="registrationForm" action="submit_form.php" method="POST" enctype="multipart/form-data">
-                
-                
-                 
-                      <div class="ratio ratio-1x1 rounded-circle overflow-hidden">
-                        <img id="output"  class="card-img-top img-cover" alt="Raeesh">
-                      </div>
+            <form id="warehouseForm" action="submit_warehouse.php" method="POST">
                 <div class="mb-3">
-                    <label for="fname" class="form-label">First Name</label>
-                    <input type="text" id="fname" name="fname" class="form-control" required placeholder="Enter your first name">
+                    <label for="capacity" class="form-label">Capacity</label>
+                    <input type="number" id="capacity" name="capacity" class="form-control" required placeholder="Enter capacity">
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required placeholder="Enter your email">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" id="address" name="address" class="form-control" required placeholder="Enter address">
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="text" id="phone" name="phone" class="form-control" required placeholder="Enter your phone number">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" id="description" name="description" class="form-control" placeholder="Enter description">
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required placeholder="Create a password">
-                </div>
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select id="role" name="role" class="form-select" required>
-                        <option value="" disabled selected>Select your role</option>
-                        <option value="warehouse">Warehouse</option>
-                        <option value="seller">Seller</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="profile_image" class="form-label">Profile Image</label>
-                    <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary">Register</button>
-                <button type="button" class="btn btn-secondary" onclick="closeEmployeeForm()">Close</button>
+                <button type="submit" class="btn btn-primary">Add Warehouse</button>
+                <button type="button" class="btn btn-secondary" onclick="closeWarehouseForm()">Close</button>
             </form>
         </div>
     </div>
-    <script type="text/javascript">
-        var loadFile = function(event) {
-          var image = document.getElementById('output');
-          image.src = URL.createObjectURL(event.target.files[0]);
-        };
-      </script>
     
+    <script>
+        function openWarehouseForm() {
+            document.getElementById('warehouseFormModal').style.display = 'flex';
+        }
+
+        function closeWarehouseForm() {
+            document.getElementById('warehouseFormModal').style.display = 'none';
+            document.getElementById('warehouseForm').reset();
+        }
+    </script>
+
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js" integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous"></script> <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I=" crossorigin="anonymous"></script> <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script> <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
@@ -236,59 +218,6 @@ for (const toggle of document.querySelectorAll("[data-bs-theme-value]")) {
 });
 })();
 </script>
-    <script>
-        // Open Employee Form Modal
-function openEmployeeForm() {
-    document.getElementById('employeeFormModal').style.display = 'flex';
-}
-
-// Close Employee Form Modal
-function closeEmployeeForm() {
-    document.getElementById('employeeFormModal').style.display = 'none';
-    document.getElementById('registrationForm').reset();
-}
-
-// Validate Profile Image Upload
-document.getElementById('profile_image').addEventListener('change', function () {
-    const file = this.files[0];
-    if (file) {
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!validTypes.includes(file.type)) {
-            alert('Please upload a valid image file (JPEG, PNG, GIF).');
-            this.value = ''; // Clear the invalid file
-        } else if (file.size > 2 * 1024 * 1024) { // 2MB limit
-            alert('File size must not exceed 2MB.');
-            this.value = ''; // Clear the oversized file
-        }
-    }
-});
-
-// Form Submission (Optional AJAX Example)
-document.getElementById('registrationForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    fetch('submit_form.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Employee registered successfully!');
-            closeEmployeeForm();
-        } else {
-            alert('Failed to register employee. Please try again.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again later.');
-    });
-});
-
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
   </body>
 </html>
