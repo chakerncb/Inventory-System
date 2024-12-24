@@ -39,6 +39,43 @@ login = (req, res) => {
     const { email, password } = req.body;
     let message = '';
 
+    if (!email || !password) {
+        message = 'Please provide an email and password';
+        return res.render('admin/auth/login', { message });
+    }
+
+     let sql = 'SELECT * FROM admin WHERE email = ?';
+    db.query(sql, [email], async (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Server error');
+        }
+
+        if (results.length < 1 || !(await bcrypt.compare(password, results[0].password))) {
+            message = 'Email or Password is incorrect';
+            return res.render('admin/auth/login', { message });
+        }
+
+        const id = results[0].id;
+        const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        });
+
+        console.log('The token is: ' + token);
+
+        const cookieOptions = {
+            expires: new Date(
+                Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+            ),
+            httpOnly: true
+        };
+
+        res.cookie('jwt', token, cookieOptions);
+        res.status(200).redirect('/admin');
+    }
+    );
+
+
     
 };
 

@@ -22,6 +22,9 @@ router.get('/admin/login', (req, res) => {
 });
 
 
+router.post('/admin/login', AuthController.login);
+
+
 router.get('/admin/products', (req, res) => {
     res.render('admin/products');
 });
@@ -57,19 +60,19 @@ router.get('/admin/wearHouses', (req, res) => {
 
 
 
-router.get('/login', (req, res) => {
-    res.render('auth/login');
-});
+// router.get('/login', (req, res) => {
+//     res.render('auth/login');
+// });
 
-router.get('/register', (req, res) => {
-    res.render('auth/register');
-});
+// router.get('/register', (req, res) => {
+//     res.render('auth/register');
+// });
 
-router.post('/register', AuthController.register);
-router.post('/login', AuthController.login);
+// router.post('/register', AuthController.register);
+// router.post('/login', AuthController.login);
 
-router.get('/categories', (req, res) => {
-    res.render('categories');
-});
+// router.get('/categories', (req, res) => {
+//     res.render('categories');
+// });
 
 module.exports = router;
