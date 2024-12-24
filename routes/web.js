@@ -57,6 +57,41 @@ router.get('/admin/wareHouses', (req, res) => {
 
 
 
+// wear house routes
+
+
+router.get('/wearHouse/', (req, res) => {
+    res.render('wearHouse/dashboard');
+});
+
+router.get('/wearHouse/login', (req, res) => {
+    res.render('wearHouse/auth/login');
+});
+
+router.post('/wearHouse/login', AuthController.login);
+
+router.get('/wearHouse/products', (req, res) => {
+    res.render('wearHouse/products');
+});
+
+router.get('/wearHouse/orders', (req, res) => {
+    res.render('wearHouse/orders');
+});
+
+router.get('/wearHouse/settings', (req, res) => {
+    res.render('wearHouse/settings');
+});
+
+router.get('/wearHouse/suppliers', (req, res) => {
+    res.render('wearHouse/suppliers');
+});
+
+router.get('/wearHouse/Categories', (req, res) => {
+    res.render('wearHouse/Categories');
+});
+
+
+
 
 
 
