@@ -1,6 +1,5 @@
-const db = require('../config/db');
+const db = require('../../config/db');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 register = async (req, res) => {
     const { name, email, phone , password, confirmPassword } = req.body;
@@ -44,39 +43,27 @@ login = (req, res) => {
         return res.render('admin/auth/login', { message });
     }
 
-     let sql = 'SELECT * FROM admin WHERE email = ?';
-    db.query(sql, [email], async (err, results) => {
-        if (err) {
-            console.log(err);
+     let query = 'SELECT * FROM admin WHERE email = ?';
+
+     db.query(query, [email], async (error, results) => {
+        if (error) {
+            console.log(error);
             return res.status(500).send('Server error');
         }
 
-        if (results.length < 1 || !(await bcrypt.compare(password, results[0].password))) {
+        for (let count=0; count < results.length; count++) {
+
+            if (results[count].email === email && await bcrypt.compare(password, results[count].password)) {
+                const user = results[count];
+                req.session.user = user;
+                res.redirect('/admin');
+        }
+        else {
             message = 'Email or Password is incorrect';
             return res.render('admin/auth/login', { message });
         }
-
-        const id = results[0].id;
-        const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN
-        });
-
-        console.log('The token is: ' + token);
-
-        const cookieOptions = {
-            expires: new Date(
-                Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-            ),
-            httpOnly: true
-        };
-
-        res.cookie('jwt', token, cookieOptions);
-        res.status(200).redirect('/admin');
     }
-    );
-
-
-    
+});
 };
 
 module.exports = {

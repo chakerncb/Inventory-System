@@ -32,7 +32,6 @@
                     <% } %>
                 </div> <!-- /.social-auth-links -->
                 <form action="/admin/login" method="post">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="input-group mb-1">
                         <div class="form-floating"> <input name="email" id="loginEmail" type="email" class="form-control" value="" placeholder=""> <label for="loginEmail">Email</label> </div>
                         <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
