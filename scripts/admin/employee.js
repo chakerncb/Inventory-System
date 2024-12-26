@@ -2,7 +2,6 @@
 
 async function getRoles() {
     const rolesSelect = document.getElementById('role');
-    rolesSelect.innerHTML = '';
 
     try {
         const response = await fetch('/admin/api/roles');
@@ -42,12 +41,24 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
 
         const result = await response.json();
         if (result.success) {
-            alert('Employee added successfully');
+            document.querySelector('.alert-success').innerText = result.message;
+            document.querySelector('.alert-success').style.display = 'block';
+            document.querySelector('.alert-danger').style.display = 'none';
+            
             form.reset();
+            setTimeout(() => {
+                document.querySelector('.alert-success').style.display = 'none';
+            }, 3000);
             getEmployees();
-        } else {
-            alert('Error adding employee');
         }
+        else if (result.message) {
+            // Pass the error message to the EJS template
+            document.querySelector('.alert-danger').innerText = result.message;
+            document.querySelector('.alert-danger').style.display = 'block';
+            setTimeout(() => {
+                document.querySelector('.alert-danger').style.display = 'none';
+            }, 3000);
+        }  
     } catch (error) {
         console.log(error);
     }
@@ -58,14 +69,14 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
 function getEmployees() {
     const table = document.getElementById('employeeTableBody');
     table.innerHTML = '';
-
+    let id = 1;
     fetch('/admin/api/employees')
         .then(response => response.json())
         .then(employees => {
             employees.forEach(employee => {
                 let row = table.insertRow();
                 row.innerHTML = `
-                    <td>${employee.id}</td>
+                    <td>${id++}</td>
                     <td>${employee.fname}</td>
                     <td>${employee.email}</td>
                     <td>${employee.phone}</td>

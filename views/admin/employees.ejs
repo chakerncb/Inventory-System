@@ -36,6 +36,15 @@
             align-items: center;
             margin-bottom: 10px;
         }
+
+        .alert-danger {
+            display: none;
+        }
+
+        .alert-success {
+            display: none;
+        }
+
     </style>
   </head>
   <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded">
@@ -103,9 +112,15 @@
                 <button type="button" class="btn-close" onclick="closeEmployeeForm()"></button>
             </div>
             <form id="registrationForm" action="/admin/employees" method="POST" enctype="multipart/form-data">
+                <div class="alert alert-danger" role="alert">
+
+                </div>
+                <div class="alert alert-success" role="alert">
+
+                </div>	
                 <div class="mb-3">
                     <label for="fname" class="form-label">Full Name</label>
-                    <input type="text" id="fname" name="fname" class="form-control" required placeholder="Enter your first name">
+                    <input type="text" id="fname" name="fname" class="form-control" required placeholder="Enter your full name">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
