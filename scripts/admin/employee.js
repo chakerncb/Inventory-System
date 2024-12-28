@@ -41,22 +41,22 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
 
         const result = await response.json();
         if (result.success) {
-            document.querySelector('.alert-success').innerText = result.message;
-            document.querySelector('.alert-success').style.display = 'block';
-            document.querySelector('.alert-danger').style.display = 'none';
+            document.querySelector('.message-success').innerText = result.message;
+            document.querySelector('.message-success').style.display = 'block';
+            document.querySelector('.message-danger').style.display = 'none';
             
             form.reset();
             setTimeout(() => {
-                document.querySelector('.alert-success').style.display = 'none';
+                document.querySelector('.message-success').style.display = 'none';
             }, 3000);
             getEmployees();
         }
         else if (result.message) {
             // Pass the error message to the EJS template
-            document.querySelector('.alert-danger').innerText = result.message;
-            document.querySelector('.alert-danger').style.display = 'block';
+            document.querySelector('.message-danger').innerText = result.message;
+            document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
-                document.querySelector('.alert-danger').style.display = 'none';
+                document.querySelector('.message-danger').style.display = 'none';
             }, 3000);
         }  
     } catch (error) {

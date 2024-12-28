@@ -25,8 +25,8 @@ app.use('/admin',adminRoutes);
 
 // employee routes
 
-const wearHouseRoutes = require('./routes/wearHouse');
-app.use('/wearHouse',wearHouseRoutes);
+const wearHouseRoutes = require('./routes/wareHouse');
+app.use('/wareHouse',wearHouseRoutes);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
