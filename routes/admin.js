@@ -1,21 +1,25 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
-const path = require('path');
 const AuthController = require('../controllers/admin/AuthController');
 const authMiddleware = require('../middleware/AdminAuthification');
 const EmployeeController = require('../controllers/admin/employeeController');
-const e = require('express');
+const SuppliersController = require('../controllers/admin/SuppliersController');
+const WareHouseController = require('../controllers/admin/WareHouseController');
 
-
-router.get('/', authMiddleware, (req, res) => {
-    res.render('admin/dashboard' , {session: req.session});
+router.use((req, res, next) => {
+    res.locals.session = req.session;
+    next();
 });
+router.get('/', authMiddleware, (req, res) => {
+    res.render('admin/dashboard');
+});
+
+
+// 
 
 router.get('/login', (req, res) => {
     res.render('admin/auth/login');
 });
-
 
 router.post('/login', AuthController.login);
 
@@ -31,6 +35,10 @@ router.get('/logout', (req, res) => {
 });
 
 
+
+//  
+
+
 router.get('/products', authMiddleware, (req, res) => {
     res.render('admin/products');
 });
@@ -41,10 +49,12 @@ router.get('/orders', authMiddleware, (req, res) => {
 });
 
 
+// employee routes :
+
+
 router.get('/employees', authMiddleware, (req, res) => {
     res.render('admin/employees');
 });
-
 
 router.post('/employees', authMiddleware, EmployeeController.newEmployee);
 
@@ -56,18 +66,41 @@ router.get('/api/roles', authMiddleware , (req, res) => {
 });
 
 
-router.get('/settings', authMiddleware, (req, res) => {
-    res.render('admin/settings');
-});
+
+// supplier routes :
 
 
 router.get('/suppliers', authMiddleware, (req, res) => {
     res.render('admin/suppliers');
 });
 
+router.post('/suppliers', authMiddleware, SuppliersController.newSupplier);
+
+router.get('/api/suppliers', authMiddleware, SuppliersController.getSuppliers);
+
+
+
+
+// wearhouse routes :
+
 
 router.get('/wareHouses', authMiddleware, (req, res) => {
     res.render('admin/wareHouses');
+});
+
+router.post('/wareHouses', authMiddleware, WareHouseController.newWareHouse);
+
+router.get('/api/wareHouses', authMiddleware, WareHouseController.getWarehouses);
+router.post('/wareHouses/delete', authMiddleware, WareHouseController.deleteWarehouse);
+router.post('/wareHouses/edit', authMiddleware, WareHouseController.editWarehouse);
+router.post('/wareHouses/update', authMiddleware, WareHouseController.updateWarehouse);
+
+
+// admin settings :
+
+
+router.get('/settings', authMiddleware, (req, res) => {
+    res.render('admin/settings');
 });
 
 module.exports = router;

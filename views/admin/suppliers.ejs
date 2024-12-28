@@ -36,9 +36,22 @@
             align-items: center;
             margin-bottom: 10px;
         }
+        .alert-danger {
+            display: none;
+        }
+
+        .alert-success {
+            display: none;
+        }
     </style>
   </head>
   <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded">
+        <div class="alert-message message-danger" role="alert">
+
+    </div>
+    <div class="alert-message message-success" role="alert">
+
+    </div>	
     <div class="app-wrapper">
         <%- include('partials/header') %>
         <%- include('partials/left-Sidebar') %>
@@ -81,7 +94,9 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="supplierTableBody"></tbody>
+                                        <tbody id="supplierTableBody">
+                                          
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -100,7 +115,7 @@
                 <h5>Add New Supplier</h5>
                 <button type="button" class="btn-close" onclick="closeSupplierForm()"></button>
             </div>
-            <form id="supplierForm" action="submit_supplier.php" method="POST">
+            <form id="registrationForm" action="#" method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Supplier Name</label>
                     <input type="text" id="name" name="name" class="form-control" required placeholder="Enter supplier name">
@@ -139,6 +154,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous"></script> <!-- jsvectormap -->
+  <script src="/scripts/admin/supplier.js" ></script>
   <script>
       // Color Mode Toggler
 (() => {

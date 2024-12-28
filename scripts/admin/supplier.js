@@ -1,24 +1,3 @@
-// Get all roles and add them to the select element
-
-async function getRoles() {
-    const rolesSelect = document.getElementById('role');
-
-    try {
-        const response = await fetch('/admin/api/roles');
-        const roles = await response.json();
-
-        roles.forEach(role => {
-            let option = document.createElement('option');
-            option.text = role.role;
-            option.value = role.id;
-            rolesSelect.appendChild(option);
-        });
-
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
 
 document.querySelector('form#registrationForm').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -30,8 +9,10 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
         data[key] = value;
     }
 
+    // console.log(data);
+
     try {
-        const response = await fetch('/admin/employees', {
+        const response = await fetch('/admin/suppliers', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -49,7 +30,7 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
             }, 3000);
-            getEmployees();
+            getSuppliers();
         }
         else if (result.message) {
             // Pass the error message to the EJS template
@@ -66,21 +47,21 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
 });
 
 
-function getEmployees() {
-    const table = document.getElementById('employeeTableBody');
+function getSuppliers() {
+    const table = document.getElementById('supplierTableBody');
     table.innerHTML = '';
     let id = 1;
-    fetch('/admin/api/employees')
+    fetch('/admin/api/suppliers')
         .then(response => response.json())
-        .then(employees => {
-            employees.forEach(employee => {
+        .then(suppliers => {
+            suppliers.forEach(supplier => {
                 let row = table.insertRow();
                 row.innerHTML = `
                     <td>${id++}</td>
-                    <td>${employee.fname}</td>
-                    <td>${employee.email}</td>
-                    <td>${employee.phone}</td>
-                    <td>${employee.role}</td>
+                    <td>${supplier.name}</td>
+                    <td>${supplier.email}</td>
+                    <td>${supplier.phone}</td>
+                    <td>${supplier.description}</td>
                 `;
             });
         })
@@ -89,4 +70,4 @@ function getEmployees() {
         });
 }
 
-getEmployees();
+getSuppliers();

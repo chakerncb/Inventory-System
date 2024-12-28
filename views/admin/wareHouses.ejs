@@ -39,6 +39,12 @@
     </style>
   </head>
   <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded">
+    <div class="alert-message message-danger" role="alert">
+
+    </div>
+    <div class="alert-message message-success" role="alert">
+
+    </div>	
     <div class="app-wrapper">
         <%- include('partials/header') %>
         <%- include('partials/left-Sidebar') %>
@@ -80,7 +86,9 @@
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="warehouseTableBody"></tbody>
+                                        <tbody id="warehouseTableBody">
+                                            
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -96,10 +104,11 @@
     <div id="warehouseFormModal" class="modal-form">
         <div class="modal-content">
             <div class="modal-header">
-                <h5>Add New Warehouse</h5>
+                <h5 id="form-title">Add New Warehouse</h5>
                 <button type="button" class="btn-close" onclick="closeWarehouseForm()"></button>
             </div>
-            <form id="warehouseForm" action="submit_warehouse.php" method="POST">
+            <form id="registrationForm" action="#" method="POST">
+                <input type="text" id="wareHouse_id" name="id" hidden>
                 <div class="mb-3">
                     <label for="capacity" class="form-label">Capacity</label>
                     <input type="number" id="capacity" name="capacity" class="form-control" required placeholder="Enter capacity">
@@ -112,7 +121,7 @@
                     <label for="description" class="form-label">Description</label>
                     <input type="text" id="description" name="description" class="form-control" placeholder="Enter description">
                 </div>
-                <button type="submit" class="btn btn-primary">Add Warehouse</button>
+                <button type="submit" class="btn btn-primary">submit</button>
                 <button type="button" class="btn btn-secondary" onclick="closeWarehouseForm()">Close</button>
             </form>
         </div>
@@ -120,6 +129,7 @@
     
     <script>
         function openWarehouseForm() {
+            document.getElementById('form-title').innerText = 'Add New Warehouse';
             document.getElementById('warehouseFormModal').style.display = 'flex';
         }
 
@@ -136,6 +146,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous"></script> <!-- jsvectormap -->
+<script src="/scripts/admin/WareHouse.js" ></script>
 <script>
     // Color Mode Toggler
 (() => {
