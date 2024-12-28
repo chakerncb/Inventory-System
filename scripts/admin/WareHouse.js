@@ -98,8 +98,8 @@ function getWarehouses() {
                     <td>${warehouse.address}</td>
                     <td>${warehouse.description}</td>
                     <td>
-                    <a onclick="deleteWarehouse(${warehouse.id_wr})"><i class="bi bi-trash3"></i></a>
-                    <a onclick="editWarehouse(${warehouse.id_wr})"><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-primary" onclick="editWarehouse(${warehouse.id_wr})"><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-danger" onclick="deleteWarehouse(${warehouse.id_wr})"><i class="bi bi-trash3"></i></a>
                     </td>
                 `;
             });
@@ -160,7 +160,6 @@ async function editWarehouse(id) {
     });
 
     const result = await response.json();
-    console.log(result);
     if (result.success) {
         document.querySelector('#wareHouse_id').value = result.warehouse.id_wr;
         document.querySelector('#capacity').value = result.warehouse.capacity;

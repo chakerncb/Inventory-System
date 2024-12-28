@@ -130,12 +130,13 @@
     <script>
         function openWarehouseForm() {
             document.getElementById('form-title').innerText = 'Add New Warehouse';
+            document.getElementById('registrationForm').reset();
             document.getElementById('warehouseFormModal').style.display = 'flex';
         }
 
         function closeWarehouseForm() {
             document.getElementById('warehouseFormModal').style.display = 'none';
-            document.getElementById('warehouseForm').reset();
+            document.getElementById('registrationForm').reset();
         }
     </script>
 

@@ -29,7 +29,6 @@ router.get('/logout', (req, res) => {
         if (err) {
             return res.redirect('/admin');
         }
-        // res.clearCookie('sid');
         res.redirect('/admin/login');
     });
 });
@@ -77,6 +76,9 @@ router.get('/suppliers', authMiddleware, (req, res) => {
 router.post('/suppliers', authMiddleware, SuppliersController.newSupplier);
 
 router.get('/api/suppliers', authMiddleware, SuppliersController.getSuppliers);
+router.post('/suppliers/delete', authMiddleware, SuppliersController.deleteSupplier);
+router.post('/suppliers/edit', authMiddleware, SuppliersController.editSupplier);
+router.post('/suppliers/update', authMiddleware, SuppliersController.updateSupplier);
 
 
 
