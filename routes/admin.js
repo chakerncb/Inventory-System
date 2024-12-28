@@ -58,11 +58,11 @@ router.get('/employees', authMiddleware, (req, res) => {
 router.post('/employees', authMiddleware, EmployeeController.newEmployee);
 
 router.get('/api/employees', authMiddleware, EmployeeController.getEmployees);
+router.get('/api/roles', authMiddleware , EmployeeController.getRoles);
+router.post('/employees/delete', authMiddleware, EmployeeController.deleteEmployee);
+router.post('/employees/edit', authMiddleware, EmployeeController.editEmployee);
+router.post('/employees/update', authMiddleware, EmployeeController.updateEmployee);
 
-
-router.get('/api/roles', authMiddleware , (req, res) => {
-    EmployeeController.getRoles(req, res);
-});
 
 
 
