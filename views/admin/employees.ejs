@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="/public/assets/css/adminlte.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+             
+                
+              
     <style>
         .modal-form {
             display: none;
@@ -126,8 +130,17 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required placeholder="Create a password">
+                    <div class="input-group">
+                        <!-- Password input field -->
+                        <input type="password" id="password" name="password" class="form-control" required placeholder="Create a password">
+                        <!-- Eye icon to toggle password visibility -->
+                        <span class="input-group-text" id="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
                 </div>
+                
+                
                 <div class="mb-3">
                     <label for="role" class="form-label">Role</label>
                     <select id="role" name="role" class="form-select" required>
@@ -265,6 +278,21 @@ function closeEmployeeForm() {
 //     }
 // });
     </script>
+  
+  <script>
+    // Get the elements
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordField = document.getElementById('password');
 
+    // Add event listener for toggling password visibility
+    togglePassword.addEventListener('click', () => {
+        // Toggle the input type between password and text
+        const type = passwordField.type === 'password' ? 'text' : 'password';
+        passwordField.type = type;
+
+        // Change the icon based on the password visibility
+        togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+</script>
   </body>
 </html>

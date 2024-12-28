@@ -3,27 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Animated Sidebar with Bootstrap</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* أساسي */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; /* مخفي افتراضيًا */
+            width: 300px;
+            height: 100%;
+            background-color: green;
+            transition: right 0.3s ease;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+        }
+
+        .sidebar form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar label {
+            margin-top: 10px;
+        }
+
+        .sidebar input,
+        .sidebar textarea {
+            margin-top: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .sidebar button[type="submit"] {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff;
+            color: green;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* زر الأسطوانة على اليمين */
+        .toggle-btn {
+            position: fixed;
+            top: 50%;
+            left: -60px; /* زر مخفي قليلاً عن الحافة */
+            transform: translateY(-50%);
+            width: 60px;
+            height: 120px;
+            background-color: green;
+            border-top-left-radius: 60px;
+            border-bottom-left-radius: 60px;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* نص الزر */
+        .toggle-btn span {
+            color: white;
+            font-size: 14px;
+            opacity: 0;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        /* تأثير التحويم */
+        .toggle-btn:hover {
+            width: 150px; /* توسيع الزر عند تمرير الماوس */
+        }
+
+        .toggle-btn:hover span {
+            opacity: 1;
+        }
+
+        /* الفئة التي تفتح الشريط الجانبي */
+        .sidebar-open {
+            right: 0;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Add New Product</h2>
-        <form action="/addProduct" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="productName">Product Name</label>
-                <input type="text" class="form-control" id="productName" name="productName" required>
-            </div>
-            <div class="form-group">
-                <label for="productLocation">Product Location</label>
-                <input type="text" class="form-control" id="productLocation" name="productLocation" required>
-            </div>
-            <div class="form-group">
-                <label for="productImage">Product Image</label>
-                <input type="file" class="form-control-file" id="productImage" name="productImage" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Product</button>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar" id="sidebar">
+        <form>
+            <h2>Contact Us</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Submit</button>
         </form>
     </div>
+
+    <!-- زر الأسطوانة -->
+    <button class="toggle-btn" id="toggleBtn">
+        <span>Open Sidebar</span>
+    </button>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            var button = document.getElementById('toggleBtn');
+
+            // Toggle sidebar visibility
+            sidebar.classList.toggle('sidebar-open');
+
+            // Move the button with the sidebar
+            if (sidebar.classList.contains('sidebar-open')) {
+                button.style.left = '300px';  // Move button when sidebar opens
+            } else {
+                button.style.left = '-60px';  // Move button back when sidebar closes
+            }
+        });
+    </script>
 </body>
 </html>
