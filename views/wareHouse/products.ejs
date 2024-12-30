@@ -1,143 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="utf-8">
+    <title>AdminLTE v4 | Manage Categories & Products</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Sidebar with Bootstrap</title>
-    <!-- Include Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard.">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="../public/assets/css/adminlte.css">
     <style>
-        /* أساسي */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        /* الشريط الجانبي */
+        /* Sidebar Styles */
         .sidebar {
             position: fixed;
+            right: -350px;
             top: 0;
-            right: -300px; /* مخفي افتراضيًا */
-            width: 300px;
             height: 100%;
-            background-color: green;
+            width: 350px;
+            background: #fff;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1050;
             transition: right 0.3s ease;
-            padding: 20px;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.5);
         }
-
-        .sidebar form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar label {
-            margin-top: 10px;
-        }
-
-        .sidebar input,
-        .sidebar textarea {
-            margin-top: 5px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .sidebar button[type="submit"] {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #fff;
-            color: green;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* زر الأسطوانة على اليمين */
-        .toggle-btn {
-            position: fixed;
-            top: 50%;
-            left: -60px; /* زر مخفي قليلاً عن الحافة */
-            transform: translateY(-50%);
-            width: 60px;
-            height: 120px;
-            background-color: green;
-            border-top-left-radius: 60px;
-            border-bottom-left-radius: 60px;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-        }
-
-        /* نص الزر */
-        .toggle-btn span {
-            color: white;
-            font-size: 14px;
-            opacity: 0;
-            white-space: nowrap;
-            transition: opacity 0.3s ease;
-        }
-
-        /* تأثير التحويم */
-        .toggle-btn:hover {
-            width: 150px; /* توسيع الزر عند تمرير الماوس */
-        }
-
-        .toggle-btn:hover span {
-            opacity: 1;
-        }
-
-        /* الفئة التي تفتح الشريط الجانبي */
-        .sidebar-open {
+        .sidebar.active {
             right: 0;
         }
+        .sidebar-header {
+            padding: 15px;
+            background: #007bff;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-body {
+            padding: 20px;
+        }
     </style>
-</head>
-<body>
-
-    <!-- الشريط الجانبي -->
-    <div class="sidebar" id="sidebar">
-        <form>
-            <h2>Contact Us</h2>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Submit</button>
-        </form>
+  </head>
+  
+  <body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="card-title">Manage Products</h3>
+                <div>
+                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
+                    <button class="btn btn-success" id="toggleCategorySidebar">Add Category</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="categoriesTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <!-- زر الأسطوانة -->
-    <button class="toggle-btn" id="toggleBtn">
-        <span>Open Sidebar</span>
-    </button>
+    <!-- Sidebar for Add Category -->
+    <div class="sidebar" id="categorySidebar">
+        <div class="sidebar-header">
+            <h5>Add Category</h5>
+            <button class="btn-close text-white" id="closeCategorySidebar"></button>
+        </div>
+        <div class="sidebar-body">
+            <form id="addCategoryForm">
+                <div class="mb-3">
+                    <label for="categoryName" class="form-label">Category Name</label>
+                    <input type="text" class="form-control" id="categoryName" name="name" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save</button>
+            </form>
+        </div>
+    </div>
 
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_ctg" class="form-label">Category</label>
+                            <select class="form-control" id="id_ctg" name="id_ctg" required>
+                                <option value="" disabled selected>Select a category</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" name="description">
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" name="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" required>
+                        </div>
+                       
+                        <button type="submit" class="btn btn-primary w-100">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        document.getElementById('toggleBtn').addEventListener('click', function() {
-            var sidebar = document.getElementById('sidebar');
-            var button = document.getElementById('toggleBtn');
+        $(document).ready(() => {
+            const categoriesTable = $('#categoriesTable').DataTable();
 
-            // Toggle sidebar visibility
-            sidebar.classList.toggle('sidebar-open');
+            // Load Categories Table
+            const loadCategories = () => {
+                $.get('/categories', (data) => {
+                    categoriesTable.clear();
+                    data.forEach(category => {
+                        categoriesTable.row.add([
+                            category.id_ctg,
+                            category.name,
+                            `
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            `
+                        ]).draw(false);
+                    });
+                });
+            };
 
-            // Move the button with the sidebar
-            if (sidebar.classList.contains('sidebar-open')) {
-                button.style.left = '300px';  // Move button when sidebar opens
-            } else {
-                button.style.left = '-60px';  // Move button back when sidebar closes
-            }
+            loadCategories();
+
+            // Add Category
+            $('#addCategoryForm').submit((e) => {
+                e.preventDefault();
+                const categoryName = $('#categoryName').val();
+                $.post('/add_category', { name: categoryName }, () => {
+                    $('#categorySidebar').removeClass('active');
+                    $('#addCategoryForm')[0].reset();
+                    loadCategories();
+                    loadCategoryDropdown();
+                });
+            });
+
+            // Load Categories into Dropdown
+            const loadCategoryDropdown = () => {
+                $.get('/categories', (data) => {
+                    const categoryDropdown = $('#id_ctg');
+                    categoryDropdown.empty().append('<option value="" disabled selected>Select a category</option>');
+                    data.forEach(category => {
+                        categoryDropdown.append(`<option value="${category.id_ctg}">${category.name}</option>`);
+                    });
+                });
+            };
+
+            loadCategoryDropdown();
+
+            // Sidebar Toggle
+            $('#toggleCategorySidebar').click(() => {
+                $('#categorySidebar').addClass('active');
+            });
+
+            $('#closeCategorySidebar').click(() => {
+                $('#categorySidebar').removeClass('active');
+            });
         });
     </script>
-</body>
+  </body>
 </html>
