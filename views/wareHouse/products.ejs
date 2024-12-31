@@ -42,7 +42,27 @@
     </style>
   </head>
   
-  <body>
+
+
+  
+
+  <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded sidebar-collapse"> <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+
+
+<!-- include the header -->
+
+   <%- include('../warehouse/partials/header') %>
+
+  <!-- =============================================== -->
+
+
+<!-- include the sidebars -->
+
+     <%- include('../warehouse/partials/left-Sidebar') %>
+
+
+
     <div class="container mt-5">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -69,22 +89,39 @@
         </div>
     </div>
 
-    <!-- Sidebar for Add Category -->
-    <div class="sidebar" id="categorySidebar">
-        <div class="sidebar-header">
-            <h5>Add Category</h5>
-            <button class="btn-close text-white" id="closeCategorySidebar"></button>
-        </div>
-        <div class="sidebar-body">
-            <form id="addCategoryForm">
-                <div class="mb-3">
-                    <label for="categoryName" class="form-label">Category Name</label>
-                    <input type="text" class="form-control" id="categoryName" name="name" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Save</button>
-            </form>
-        </div>
+<!-- Sidebar for Add Category -->
+<div class="sidebar" id="categorySidebar">
+    <div class="sidebar-header">
+        <h5>Manage Categories</h5>
+        <button class="btn-close text-white" id="closeCategorySidebar"></button>
     </div>
+    <div class="sidebar-body">
+        <!-- Add Category Form -->
+        <form id="addCategoryForm" class="mb-3">
+            <div class="mb-3">
+                <label for="categoryName" class="form-label">Category Name</label>
+                <input type="text" class="form-control" id="categoryName" name="name" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mb-3">Save</button>
+        </form>
+
+        <!-- Categories Table -->
+        <h6>Existing Categories</h6>
+        <table id="sidebarCategoriesTable" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be loaded dynamically -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
     <!-- Add Product Modal -->
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
@@ -103,7 +140,8 @@
                         <div class="mb-3">
                             <label for="id_ctg" class="form-label">Category</label>
                             <select class="form-control" id="id_ctg" name="id_ctg" required>
-                                <option value="" disabled selected>Select a category</option>
+                                <option value="" disabled selected>Select a category</opt
+                                    ion>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -125,6 +163,8 @@
             </div>
         </div>
     </div>
+    </div>
+    
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -189,5 +229,98 @@
             });
         });
     </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js" integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous"></script> <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I=" crossorigin="anonymous"></script> <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script> <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
+    <script src="../public/assets/js/adminlte.js"></script> <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
+  
+    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" integrity="sha256-/t1nN2956BT869E6H4V1dnt0X5pAQHPytli+1nTZm2Y=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" integrity="sha256-XPpPaZlU8S/HWf7FZLAncLg2SAkP8ScUTII89x9D3lY=" crossorigin="anonymous"></script> <!-- jsvectormap -->
+    <script>
+        // Color Mode Toggler
+(() => {
+  "use strict";
+
+  const storedTheme = localStorage.getItem("theme");
+
+  const getPreferredTheme = () => {
+    if (storedTheme) {
+      return storedTheme;
+    }
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  };
+
+  const setTheme = function (theme) {
+    if (
+      theme === "auto" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      document.documentElement.setAttribute("data-bs-theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-bs-theme", theme);
+    }
+  };
+
+  setTheme(getPreferredTheme());
+
+  const showActiveTheme = (theme, focus = false) => {
+    const themeSwitcher = document.querySelector("#bd-theme");
+
+    if (!themeSwitcher) {
+      return;
+    }
+
+    const themeSwitcherText = document.querySelector("#bd-theme-text");
+    const activeThemeIcon = document.querySelector(".theme-icon-active i");
+    const btnToActive = document.querySelector(
+      `[data-bs-theme-value="${theme}"]`
+    );
+    const svgOfActiveBtn = btnToActive.querySelector("i").getAttribute("class");
+
+    for (const element of document.querySelectorAll("[data-bs-theme-value]")) {
+      element.classList.remove("active");
+      element.setAttribute("aria-pressed", "false");
+    }
+
+    btnToActive.classList.add("active");
+    btnToActive.setAttribute("aria-pressed", "true");
+    activeThemeIcon.setAttribute("class", svgOfActiveBtn);
+    const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`;
+    themeSwitcher.setAttribute("aria-label", themeSwitcherLabel);
+
+    if (focus) {
+      themeSwitcher.focus();
+    }
+  };
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => {
+      if (storedTheme !== "light" || storedTheme !== "dark") {
+        setTheme(getPreferredTheme());
+      }
+    });
+
+  window.addEventListener("DOMContentLoaded", () => {
+    showActiveTheme(getPreferredTheme());
+
+    for (const toggle of document.querySelectorAll("[data-bs-theme-value]")) {
+      toggle.addEventListener("click", () => {
+        const theme = toggle.getAttribute("data-bs-theme-value");
+        localStorage.setItem("theme", theme);
+        setTheme(theme);
+        showActiveTheme(theme, true);
+      });
+    }
+  });
+})();
+    </script>
+
+
   </body>
 </html>
