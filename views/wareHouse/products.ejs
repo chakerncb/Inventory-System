@@ -78,6 +78,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Category</th>
+                            <th>Warehouse</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -85,6 +90,7 @@
                         <!-- Data will be loaded dynamically -->
                     </tbody>
                 </table>
+                
             </div>
         </div>
     </div>
@@ -140,8 +146,13 @@
                         <div class="mb-3">
                             <label for="id_ctg" class="form-label">Category</label>
                             <select class="form-control" id="id_ctg" name="id_ctg" required>
-                                <option value="" disabled selected>Select a category</opt
-                                    ion>
+                                <option value="" disabled selected>Select a category</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_warehouse" class="form-label">Warehouse</label>
+                            <select class="form-control" id="id_warehouse" name="id_warehouse" required>
+                                <option value="" disabled selected>Select a warehouse</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -156,9 +167,9 @@
                             <label for="quantity" class="form-label">Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity" required>
                         </div>
-                       
                         <button type="submit" class="btn btn-primary w-100">Save</button>
                     </form>
+                    
                 </div>
             </div>
         </div>
@@ -319,6 +330,102 @@
     }
   });
 })();
+    </script>
+    <!--ex product table -->
+    <script>
+        $(document).ready(() => {
+    const productsTable = $('#categoriesTable').DataTable();
+
+    // Example Data for Categories and Warehouses
+    const exampleCategories = [
+        { id_ctg: 1, name: "Electronics" },
+        { id_ctg: 2, name: "Furniture" }
+    ];
+    const exampleWarehouses = [
+        { id_warehouse: 1, name: "Warehouse A" },
+        { id_warehouse: 2, name: "Warehouse B" }
+    ];
+    const exampleProducts = [
+        {
+            id: 1,
+            name: "Laptop",
+            category: "Electronics",
+            warehouse: "Warehouse A",
+            description: "High-end laptop",
+            price: 1200,
+            quantity: 5
+        },
+        {
+            id: 2,
+            name: "Sofa",
+            category: "Furniture",
+            warehouse: "Warehouse B",
+            description: "Comfortable sofa",
+            price: 500,
+            quantity: 10
+        }
+    ];
+
+    // Load Categories into Dropdown
+    const loadCategoryDropdown = () => {
+        const categoryDropdown = $('#id_ctg');
+        categoryDropdown.empty().append('<option value="" disabled selected>Select a category</option>');
+        exampleCategories.forEach(category => {
+            categoryDropdown.append(`<option value="${category.id_ctg}">${category.name}</option>`);
+        });
+    };
+
+    // Load Warehouses into Dropdown
+    const loadWarehouseDropdown = () => {
+        const warehouseDropdown = $('#id_warehouse');
+        warehouseDropdown.empty().append('<option value="" disabled selected>Select a warehouse</option>');
+        exampleWarehouses.forEach(warehouse => {
+            warehouseDropdown.append(`<option value="${warehouse.id_warehouse}">${warehouse.name}</option>`);
+        });
+    };
+
+    // Load Products into Table
+    const loadProducts = () => {
+        productsTable.clear();
+        exampleProducts.forEach(product => {
+            productsTable.row.add([
+                product.id,
+                product.name,
+                product.category,
+                product.warehouse,
+                product.description,
+                `$${product.price}`,
+                product.quantity,
+                `
+                    <button class="btn btn-sm btn-warning">Edit</button>
+                    <button class="btn btn-sm btn-danger">Delete</button>
+                `
+            ]).draw(false);
+        });
+    };
+
+    loadCategoryDropdown();
+    loadWarehouseDropdown();
+    loadProducts();
+
+    // Add Product
+    $('#addProductForm').submit((e) => {
+        e.preventDefault();
+        const newProduct = {
+            id: exampleProducts.length + 1,
+            name: $('#productName').val(),
+            category: $('#id_ctg option:selected').text(),
+            warehouse: $('#id_warehouse option:selected').text(),
+            description: $('#description').val(),
+            price: $('#price').val(),
+            quantity: $('#quantity').val()
+        };
+        exampleProducts.push(newProduct);
+        $('#addProductForm')[0].reset();
+        loadProducts();
+    });
+});
+
     </script>
 
 
