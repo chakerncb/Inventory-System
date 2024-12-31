@@ -3,6 +3,7 @@ const app = express();
 const env = require('dotenv').config();
 const port = process.env.APP_PORT;
 const db = require('./config/db');
+const AuthController = require('./controllers/AuthController');
 
 app.use(express.json());
 app.use('/public', express.static(__dirname + '/public'));
@@ -25,8 +26,19 @@ app.use('/admin',adminRoutes);
 
 // employee routes
 
+app.get('/login', (req, res) => {
+    res.render('wareHouse/auth/login');
+});
+app.post('/login', AuthController.login);
+
+
 const wearHouseRoutes = require('./routes/wareHouse');
 app.use('/wareHouse',wearHouseRoutes);
+
+// seller routes
+
+const sellerRoutes = require('./routes/seller');
+app.use('/seller',sellerRoutes);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

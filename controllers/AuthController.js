@@ -1,4 +1,4 @@
-const db = require('../../config/db');
+const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 
 register = async (req, res) => {
@@ -43,12 +43,12 @@ login = (req, res) => {
         return res.render('admin/auth/login', { message });
     }
 
-     let query = 'SELECT * FROM admin WHERE email = ?';
+     let query = 'SELECT * FROM employees WHERE email = ?';
 
      db.query(query, [email], async (error, results) => {
-        if (error) {
-            console.log(error);
-            return res.status(500).send('Server error');
+        if (error  || results.length === 0) {
+            message = 'Email or Password is incorrect';
+            return res.render('wareHouse/auth/login', { message });
         }
 
         for (let count=0; count < results.length; count++) {
@@ -56,11 +56,22 @@ login = (req, res) => {
             if (results[count].email === email && await bcrypt.compare(password, results[count].password)) {
                 const user = results[count];
                 req.session.user = user;
-                res.redirect('/admin');
+
+
+                let userRole;
+                const role = await db.promise().query('SELECT * FROM roles WHERE id = ?', [user.role]);
+                userRole = role[0][0].role;
+                req.session.userRole = userRole;
+
+                if (userRole === 'seller') {
+                    return res.redirect('/seller');
+                } else if (userRole === 'warehouse') {
+                    return res.redirect('/warehouse');
+                }
         }
         else {
             message = 'Email or Password is incorrect';
-            return res.render('admin/auth/login', { message });
+            return res.render('wareHouse/auth/login', { message });
         }
     }
 });

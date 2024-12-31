@@ -150,7 +150,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addProductForm">
+                    <form id="addProductForm" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="productName" name="name" required>
@@ -179,6 +179,11 @@
                             <label for="quantity" class="form-label">Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="image" name="image" required>
+                        </div>
+                        </form>
                         <button type="submit" class="btn btn-primary w-100">Save</button>
                     </form>
                     
@@ -197,50 +202,6 @@
     <script>
         $(document).ready(() => {
             const categoriesTable = $('#categoriesTable').DataTable();
-
-            // Load Categories Table
-            const loadCategories = () => {
-                $.get('/categories', (data) => {
-                    categoriesTable.clear();
-                    data.forEach(category => {
-                        categoriesTable.row.add([
-                            category.id_ctg,
-                            category.name,
-                            `
-                                <button class="btn btn-sm btn-warning">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            `
-                        ]).draw(false);
-                    });
-                });
-            };
-
-            loadCategories();
-
-            // Add Category
-            $('#addCategoryForm').submit((e) => {
-                e.preventDefault();
-                const categoryName = $('#categoryName').val();
-                $.post('/add_category', { name: categoryName }, () => {
-                    $('#categorySidebar').removeClass('active');
-                    $('#addCategoryForm')[0].reset();
-                    loadCategories();
-                    loadCategoryDropdown();
-                });
-            });
-
-            // Load Categories into Dropdown
-            const loadCategoryDropdown = () => {
-                $.get('/categories', (data) => {
-                    const categoryDropdown = $('#id_ctg');
-                    categoryDropdown.empty().append('<option value="" disabled selected>Select a category</option>');
-                    data.forEach(category => {
-                        categoryDropdown.append(`<option value="${category.id_ctg}">${category.name}</option>`);
-                    });
-                });
-            };
-
-            loadCategoryDropdown();
 
             // Sidebar Toggle
             $('#toggleCategorySidebar').click(() => {
@@ -342,115 +303,6 @@
     }
   });
 })();
-    </script>
-    <!--ex product table -->
-    <script>                   
-        $(document).ready(() => {
-        const productsTable = $('#categoriesTable').DataTable();
-    
-        // Example Data for Categories, Warehouses, and Products
-        const exampleCategories = [
-            { id_ctg: 1, name: "Electronics" },
-            { id_ctg: 2, name: "Furniture" }
-        ];
-        const exampleWarehouses = [
-            { id_warehouse: 1, name: "Warehouse A" },
-            { id_warehouse: 2, name: "Warehouse B" }
-        ];
-        const exampleProducts = [
-            {
-                id: 1,
-                name: "Laptop",
-                category: "Electronics",
-                warehouse: "Warehouse A",
-                description: "High-end laptop",
-                price: 1200,
-                quantity: 5
-            },
-            {
-                id: 2,
-                name: "Sofa",
-                category: "Furniture",
-                warehouse: "Warehouse B",
-                description: "Comfortable sofa",
-                price: 500,
-                quantity: 10
-            }
-        ];
-    
-        // Load Warehouses into Dropdowns
-        const loadWarehouseDropdown = () => {
-            const warehouseFilter = $('#warehouseFilter');
-            const warehouseDropdown = $('#id_warehouse');
-            
-            warehouseFilter.empty().append('<option value="" selected>All Warehouses</option>');
-            warehouseDropdown.empty().append('<option value="" disabled selected>Select a warehouse</option>');
-    
-            exampleWarehouses.forEach(warehouse => {
-                warehouseFilter.append(`<option value="${warehouse.name}">${warehouse.name}</option>`);
-                warehouseDropdown.append(`<option value="${warehouse.id_warehouse}">${warehouse.name}</option>`);
-            });
-        };
-    
-        // Load Categories into Dropdown
-        const loadCategoryDropdown = () => {
-            const categoryDropdown = $('#id_ctg');
-            categoryDropdown.empty().append('<option value="" disabled selected>Select a category</option>');
-            exampleCategories.forEach(category => {
-                categoryDropdown.append(`<option value="${category.id_ctg}">${category.name}</option>`);
-            });
-        };
-    
-        // Load Products into Table
-        const loadProducts = (filterWarehouse = "") => {
-            productsTable.clear();
-            exampleProducts
-                .filter(product => filterWarehouse === "" || product.warehouse === filterWarehouse)
-                .forEach(product => {
-                    productsTable.row.add([
-                        product.id,
-                        product.name,
-                        product.category,
-                        product.warehouse,
-                        product.description,
-                        `$${product.price}`,
-                        product.quantity,
-                        `
-                            <button class="btn btn-sm btn-warning">Edit</button>
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        `
-                    ]).draw(false);
-                });
-        };
-    
-        // Handle Warehouse Filter Change
-        $('#warehouseFilter').on('change', function () {
-            const selectedWarehouse = $(this).val();
-            loadProducts(selectedWarehouse);
-        });
-    
-        // Add Product
-        $('#addProductForm').submit((e) => {
-            e.preventDefault();
-            const newProduct = {
-                id: exampleProducts.length + 1,
-                name: $('#productName').val(),
-                category: $('#id_ctg option:selected').text(),
-                warehouse: $('#id_warehouse option:selected').text(),
-                description: $('#description').val(),
-                price: $('#price').val(),
-                quantity: $('#quantity').val()
-            };
-            exampleProducts.push(newProduct);
-            $('#addProductForm')[0].reset();
-            loadProducts($('#warehouseFilter').val());
-        });
-    
-        // Initial Load
-        loadCategoryDropdown();
-        loadWarehouseDropdown();
-        loadProducts();
-    });
     </script>
 
 
