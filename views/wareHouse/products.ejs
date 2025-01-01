@@ -157,14 +157,20 @@
                         </div>
                         <div class="mb-3">
                             <label for="id_ctg" class="form-label">Category</label>
-                            <select class="form-control" id="id_ctg" name="id_ctg" required>
+                            <select class="form-control" id="id_ctg" name="id_ctg" >
                                 <option value="" disabled selected>Select a category</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="id_warehouse" class="form-label">Warehouse</label>
-                            <select class="form-control" id="id_warehouse" name="id_warehouse" required>
+                            <select class="form-control" id="id_warehouse" name="id_warehouse" >
                                 <option value="" disabled selected>Select a warehouse</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_suplliers" class="form-label">Warehouse</label>
+                            <select class="form-control" id="id_suplliers" name="id_suplliers" >
+                                <option value="" disabled selected>Select a supllier</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -183,7 +189,6 @@
                             <label for="image" class="form-label">Image</label>
                             <input type="file" class="form-control" id="image" name="image" required>
                         </div>
-                        </form>
                         <button type="submit" class="btn btn-primary w-100">Save</button>
                     </form>
                     
@@ -195,6 +200,7 @@
     
 
     <!-- Scripts -->
+     <script src="/scripts/wareHouse/products.js" ></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.13.4/js/jquery.dataTables.min.js"></script>
