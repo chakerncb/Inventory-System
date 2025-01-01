@@ -2,24 +2,30 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const path = require('path');
-const AuthController = require('../controllers/wareHouse/AuthController');
+const checkWareHouse = require('../middleware/WareHouseAuthentication');
+const ProductsController = require('../controllers/wareHouse/ProductsController');
 
-// wear house routes
+router.use((req, res, next) => {
+    res.locals.session = req.session;
+    next();
+});
 
-
-router.get('/', (req, res) => {
+router.get('/', checkWareHouse, (req, res) => {
     res.render('wareHouse/dashboard');
 });
 
-router.get('/login', (req, res) => {
-    res.render('wareHouse/auth/login');
-});
-
-// router.post('/login', AuthController.login);
-
-router.get('/products', (req, res) => {
+router.get('/products', checkWareHouse , (req, res) => {
     res.render('wareHouse/products');
 });
+router.post('/products', checkWareHouse, ProductsController.StoreProduct);
+router.get('/api/suplliers', checkWareHouse, ProductsController.getSuplliers);
+router.post('/categories', checkWareHouse, ProductsController.addCategory);
+router.get('/api/categories', checkWareHouse, ProductsController.getCategories);
+router.get('/api/warehouses', checkWareHouse, ProductsController.getWarehouses);
+
+
+
+
 
 router.get('/orders', (req, res) => {
     res.render('wareHouse/orders');

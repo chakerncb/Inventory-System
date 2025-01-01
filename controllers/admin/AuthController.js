@@ -48,9 +48,9 @@ login = (req, res) => {
      let query = 'SELECT * FROM admin WHERE email = ?';
 
      db.query(query, [email], async (error, results) => {
-        if (error) {
-            console.log(error);
-            return res.status(500).send('Server error');
+        if (error || results.length === 0) {
+            message = 'Email or Password is incorrect';
+            return res.render('admin/auth/login', { message });
         }
 
         for (let count=0; count < results.length; count++) {
