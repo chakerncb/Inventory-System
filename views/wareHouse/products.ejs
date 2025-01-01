@@ -62,6 +62,7 @@
 
 
   <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded sidebar-collapse"> <!--begin::App Wrapper-->
+    <%- include('../layouts/alerts') %>
     <div class="app-wrapper">
 
 
@@ -98,17 +99,19 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Image</th>
                                 <th>Name</th>
-                                <th>Category</th>
-                                <th>Warehouse</th>
                                 <th>Description</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
+                                <th>Supplier</th>
+                                <th>Category</th>
+                                <th>Warehouse</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Data will be loaded dynamically -->
+                        <tbody id="productsTableBody">
+
                         </tbody>
                     </table>
                 </div>
@@ -169,13 +172,7 @@
                         <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid"
                             style="display: none; max-height: 200px;" />
                     </div>
-                    <form id="addProductForm">
-                        <!-- Image Upload Field -->
-                        <div class="mb-3">
-                            <label for="productImage" class="form-label">Product Image</label>
-                            <input type="file" class="form-control" id="productImage" name="image" accept="image/*"
-                                required>
-                        </div>
+                    <form id="addProductForm" enctype="multipart/form-data">
                         <!-- Other Form Fields -->
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name</label>
@@ -195,7 +192,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="id_suplliers" class="form-label">Warehouse</label>
-                            <select class="form-control" id="id_suplliers" name="id_suplliers" >
+                            <select class="form-control" id="id_suplliers" name="id_supllier" >
                                 <option value="" disabled selected>Select a supllier</option>
                             </select>
                         </div>

@@ -8,6 +8,7 @@ const AuthController = require('./controllers/AuthController');
 app.use(express.json());
 app.use('/public', express.static(__dirname + '/public'));
 app.use('/scripts', express.static(__dirname + '/scripts')); 
+app.use('/storage', express.static(__dirname + '/storage'));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 const session = require('express-session');

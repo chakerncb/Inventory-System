@@ -1,7 +1,5 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
-const path = require('path');
 const checkWareHouse = require('../middleware/WareHouseAuthentication');
 const ProductsController = require('../controllers/wareHouse/ProductsController');
 const CategoriesController = require('../controllers/wareHouse/CategorysController');
@@ -18,7 +16,8 @@ router.get('/', checkWareHouse, (req, res) => {
 router.get('/products', checkWareHouse , (req, res) => {
     res.render('wareHouse/products');
 });
-router.post('/products', checkWareHouse, ProductsController.StoreProduct);
+router.post('/products', checkWareHouse, ProductsController.upload.single('image'),ProductsController.StoreProduct);
+router.get('/api/products', checkWareHouse, ProductsController.getProducts);
 router.get('/api/suplliers', checkWareHouse, ProductsController.getSuplliers);
 router.get('/api/warehouses', checkWareHouse, ProductsController.getWarehouses);
 

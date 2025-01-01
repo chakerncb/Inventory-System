@@ -6,7 +6,7 @@ async function getSuplliers() {
         const result = await response.json();
         result.forEach(supllier => {
             const option = document.createElement('option');
-            option.value = supllier.id;
+            option.value = supllier.id_s;
             option.innerText = supllier.name;
             suplliersSelect.appendChild(option);
         });
@@ -46,6 +46,7 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
             form.reset();
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }
             , 3000);
             getCategories();
@@ -54,6 +55,7 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }
             , 3000);
         }
@@ -61,6 +63,43 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
         console.log(error);
     }
 });
+
+
+async function getProducts() {
+    const productsTable = document.getElementById('productsTableBody');
+    productsTable.innerHTML = '';
+
+    try {
+        const response = await fetch('/wareHouse/api/products');
+        const result = await response.json();
+        console.log(result);
+        let i = 1;
+        result.forEach(product => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${i++}</td>
+                <td><img src="/storage/products/${product.image}" alt="${product.name}" style="width: 50px; height: 50px;"></td>
+                <td>${product.name}</td>
+                <td>${product.description}</td>
+                <td>${product.price}</td>
+                <td>${product.quantity}</td>
+                <td>${product.id_s}</td>
+                <td>${product.id_ctg}</td>
+                <td>${product.id_w}</td>
+                <td class="text-center d-flex justify-content-around">
+                    <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            `;
+            productsTable.appendChild(tr);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+getProducts();
 
 
 
@@ -73,10 +112,9 @@ async function getCategories() {
     try {
         const response = await fetch('/wareHouse/api/categories');
         const result = await response.json();
-        console.log(result);
         result.forEach(category => {
             const option = document.createElement('option');
-            option.value = category.id;
+            option.value = category.id_ctg;
             option.innerText = category.name;
             categoriesSelect.appendChild(option);
         });
@@ -137,10 +175,7 @@ document.querySelector('#addProductForm').addEventListener('submit', async funct
     try {
         const response = await fetch('/wareHouse/products', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(product)
+            body: formData
         });
 
         const result = await response.json();
