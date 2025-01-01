@@ -1,23 +1,3 @@
-async function getSuplliers() {
-    const suplliersSelect = document.getElementById('id_suplliers');
-
-    try {
-        const response = await fetch('/wareHouse/api/suplliers');
-        const result = await response.json();
-        result.forEach(supllier => {
-            const option = document.createElement('option');
-            option.value = supllier.id;
-            option.innerText = supllier.name;
-            suplliersSelect.appendChild(option);
-        });
-    } catch (error) {
-        console.log(error);
-    }
-
-}
-
-getSuplliers();
-
 
 document.querySelector('#addCategoryForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -65,28 +45,25 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
 
 
 async function getCategories() {
-    const categoriesSelect = document.getElementById('id_ctg');
-    const categoriesTable = document.getElementById('sidebarCategoriesTableBody');
-    categoriesSelect.innerHTML = '';
+    const categoriesTable = document.getElementById('CategoriesTableBody');
     categoriesTable.innerHTML = '';
 
     try {
         const response = await fetch('/wareHouse/api/categories');
         const result = await response.json();
-        console.log(result);
-        result.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.innerText = category.name;
-            categoriesSelect.appendChild(option);
-        });
-
+       
         let i = 1;
         result.forEach(category => {
+            console.log(category);
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${i++}</td>
                 <td>${category.name}</td>
+                <td>${category.description}</td>
+                <td align="center">
+                    <button onclick="editCtg(${category.id_ctg})" class="btn btn-sm btn-warning">Edit</button>
+                    <button onclick="deleteCtg(${category.id_ctg})" class="btn btn-sm btn-danger">Delete</button>
+                </td>
             `;
             categoriesTable.appendChild(tr);
         });
@@ -97,50 +74,16 @@ async function getCategories() {
 }
 
 
-getCategories();
-
-
-async function getWarehouses() {
-    const warehousesSelect = document.getElementById('id_warehouse');
+async function deleteCtg(id) {
 
     try {
-        const response = await fetch('/wareHouse/api/warehouses');
-        const result = await response.json();
-        result.forEach(warehouse => {
-            const option = document.createElement('option');
-            option.value = warehouse.id_w;
-            option.innerText = 'warehouse ' + warehouse.id_w;
-            warehousesSelect.appendChild(option);
-        });
-    } catch (error) {
-        console.log(error);
-    }
 
-}
-
-getWarehouses();
-
-
-
-
-
-document.querySelector('#addProductForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const form = document.querySelector('#addProductForm');
-    const formData = new FormData(form);
-    const product = {};
-    formData.forEach((value, key) => {
-        product[key] = value;
-    });
-    console.log(product);
-    
-    try {
-        const response = await fetch('/wareHouse/products', {
+        const response = await fetch('/wareHouse/categories/delete', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(product)
+            body: JSON.stringify({ id }),
         });
 
         const result = await response.json();
@@ -148,18 +91,42 @@ document.querySelector('#addProductForm').addEventListener('submit', async funct
             document.querySelector('.message-success').innerText = result.message;
             document.querySelector('.message-success').style.display = 'block';
             document.querySelector('.message-danger').style.display = 'none';
-            form.reset();
+            
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
             }, 3000);
-        } else if (result.message) {
+            getCategories();
+        }
+        else if (result.message) {
+            // Pass the error message to the EJS template
             document.querySelector('.message-danger').innerText = result.message;
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
             }, 3000);
-        }
+        }  
+        
     } catch (error) {
         console.log(error);
-    }
-});
+    
+}
+}
+
+
+// async function editCtg(id){
+
+//     try {
+//         const response = await fetch() {
+            
+//         }
+
+//     }
+//     catch (error) {
+
+//     }
+
+// }
+
+
+
+getCategories();

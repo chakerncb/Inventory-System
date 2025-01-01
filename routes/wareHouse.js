@@ -4,6 +4,7 @@ const router = express.Router();
 const path = require('path');
 const checkWareHouse = require('../middleware/WareHouseAuthentication');
 const ProductsController = require('../controllers/wareHouse/ProductsController');
+const CategoriesController = require('../controllers/wareHouse/CategorysController');
 
 router.use((req, res, next) => {
     res.locals.session = req.session;
@@ -19,9 +20,18 @@ router.get('/products', checkWareHouse , (req, res) => {
 });
 router.post('/products', checkWareHouse, ProductsController.StoreProduct);
 router.get('/api/suplliers', checkWareHouse, ProductsController.getSuplliers);
-router.post('/categories', checkWareHouse, ProductsController.addCategory);
-router.get('/api/categories', checkWareHouse, ProductsController.getCategories);
 router.get('/api/warehouses', checkWareHouse, ProductsController.getWarehouses);
+
+
+
+// categories routes
+
+router.get('/Categories', checkWareHouse, (req, res) => {
+    res.render('wareHouse/Categories');
+});
+router.get('/api/categories', checkWareHouse, CategoriesController.getCategories);
+router.post('/categories', checkWareHouse, CategoriesController.addCategory);
+router.post('/categories/delete', checkWareHouse, CategoriesController.deleteCategory);
 
 
 
@@ -39,8 +49,6 @@ router.get('/suppliers', (req, res) => {
     res.render('wareHouse/suppliers');
 });
 
-router.get('/Categories', (req, res) => {
-    res.render('wareHouse/Categories');
-});
+
 
 module.exports = router;
