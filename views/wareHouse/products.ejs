@@ -129,20 +129,23 @@
                 <label for="categoryName" class="form-label">Category Name</label>
                 <input type="text" class="form-control" id="categoryName" name="name" required>
             </div>
+            <div class="mb-3">
+                <label for="categoryDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="categoryDescription" name="description">
+            </div>
             <button type="submit" class="btn btn-primary w-100 mb-3">Save</button>
         </form>
 
         <!-- Categories Table -->
         <h6>Existing Categories</h6>
-        <table id="sidebarCategoriesTable" class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="sidebarCategoriesTableBody">
                 <!-- Data will be loaded dynamically -->
             </tbody>
         </table>
@@ -160,7 +163,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-<<<<<<< HEAD
                     <!-- Image Preview -->
                     <div class="mb-3 text-center">
                         <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid"
@@ -174,9 +176,6 @@
                                 required>
                         </div>
                         <!-- Other Form Fields -->
-=======
-                    <form id="addProductForm" enctype="multipart/form-data">
->>>>>>> 91d587f2886aedd23fc81f31b83e805411d5c1a1
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="productName" name="name" required>
@@ -345,154 +344,7 @@
                 }
             });
         })();
-    </script>
-<<<<<<< HEAD
-    <script>
-    <!--ex product table -->
-    $(document).ready(() => {
-        const productsTable = $('#categoriesTable').DataTable({
-          columns: [
-            { title: "ID" },
-            { title: "Image", orderable: false }, // Image column
-            { title: "Name" },
-            { title: "Category" },
-            { title: "Warehouse" },
-            { title: "Description" },
-            { title: "Price" },
-            { title: "Quantity" },
-            { title: "Actions", orderable: false }
-          ]
-        });
-      
-        // Example Data for Categories, Warehouses, and Products
-        const exampleCategories = [
-          { id_ctg: 1, name: "Electronics" },
-          { id_ctg: 2, name: "Furniture" }
-        ];
-        const exampleWarehouses = [
-          { id_warehouse: 1, name: "Warehouse A" },
-          { id_warehouse: 2, name: "Warehouse B" }
-        ];
-        const exampleProducts = [
-          {
-            id: 1,
-            name: "Laptop",
-            category: "Electronics",
-            warehouse: "Warehouse A",
-            description: "High-end laptop",
-            price: 1200,
-            quantity: 5,
-            imageUrl: "path_to_image/laptop.jpg" // Image URL
-          },
-          {
-            id: 2,
-            name: "Sofa",
-            category: "Furniture",
-            warehouse: "Warehouse B",
-            description: "Comfortable sofa",
-            price: 500,
-            quantity: 10,
-            imageUrl: "path_to_image/sofa.jpg" // Image URL
-          }
-        ];
-      
-        // Load Warehouses into Dropdowns
-        const loadWarehouseDropdown = () => {
-          const warehouseFilter = $('#warehouseFilter');
-          const warehouseDropdown = $('#id_warehouse');
-      
-          warehouseFilter.empty().append('<option value="" selected>All Warehouses</option>');
-          warehouseDropdown.empty().append('<option value="" disabled selected>Select a warehouse</option>');
-      
-          exampleWarehouses.forEach(warehouse => {
-            warehouseFilter.append(`<option value="${warehouse.name}">${warehouse.name}</option>`);
-            warehouseDropdown.append(`<option value="${warehouse.id_warehouse}">${warehouse.name}</option>`);
-          });
-        };
-      
-        // Load Categories into Dropdown
-        const loadCategoryDropdown = () => {
-          const categoryDropdown = $('#id_ctg');
-          categoryDropdown.empty().append('<option value="" disabled selected>Select a category</option>');
-          exampleCategories.forEach(category => {
-            categoryDropdown.append(`<option value="${category.id_ctg}">${category.name}</option>`);
-          });
-        };
-      
-        // Load Products into Table
-        const loadProducts = (filterWarehouse = "") => {
-          productsTable.clear();
-          exampleProducts
-            .filter(product => filterWarehouse === "" || product.warehouse === filterWarehouse)
-            .forEach(product => {
-              productsTable.row.add([
-                product.id,
-                `<img src="${product.imageUrl}" alt="${product.name} Image" style="max-height: 50px;">`, // Image cell
-                product.name,
-                product.category,
-                product.warehouse,
-                product.description,
-                `$${product.price}`,
-                product.quantity,
-                `
-                <button class="btn btn-sm btn-warning">Edit</button>
-                <button class="btn btn-sm btn-danger">Delete</button>
-                `
-              ]).draw(false);
-            });
-        };
-      
-        // Handle Warehouse Filter Change
-        $('#warehouseFilter').on('change', function () {
-          const selectedWarehouse = $(this).val();
-          loadProducts(selectedWarehouse);
-        });
-      
-        // Add Product
-        $('#addProductForm').submit((e) => {
-          e.preventDefault();
-          const newProduct = {
-            id: exampleProducts.length + 1,
-            name: $('#productName').val(),
-            category: $('#id_ctg option:selected').text(),
-            warehouse: $('#id_warehouse option:selected').text(),
-            description: $('#description').val(),
-            price: $('#price').val(),
-            quantity: $('#quantity').val(),
-            imageUrl: $('#imageUrl').val() // Assuming there's an input for image URL
-          };
-          exampleProducts.push(newProduct);
-          $('#addProductForm')[0].reset();
-          loadProducts($('#warehouseFilter').val());
-        });
-      
-        // Initial Load
-        loadCategoryDropdown();
-        loadWarehouseDropdown();
-        loadProducts();
-      });
-    </script>      
-    <script>
-        document.getElementById('productImage').addEventListener('change', function (event) {
-            const imagePreview = document.getElementById('imagePreview');
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.src = '#';
-                imagePreview.style.display = 'none';
-            }
-        });
-    </script>
-=======
->>>>>>> 91d587f2886aedd23fc81f31b83e805411d5c1a1
-
-
+    </script>  
 </body>
 
 </html>

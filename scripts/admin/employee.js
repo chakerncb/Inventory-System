@@ -86,6 +86,7 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
                 form.reset();
                 setTimeout(() => {
                     document.querySelector('.message-success').style.display = 'none';
+                    document.querySelector('.message-success').innerText = '';
                 }, 3000);
                 getEmployees();
             }
