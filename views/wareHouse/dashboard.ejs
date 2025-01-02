@@ -152,6 +152,15 @@
 </div>
 
 
+
+
+    
+</main>
+
+
+
+
+
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -214,62 +223,10 @@
         });
     })();
 
-    // Toggle Right Sidebar
-    function toggleRightSidebar() {
-        document.getElementById('rightSidebar').classList.toggle('d-none');
-    }
-
-    // Add New Category
-    function addNewCategory() {
-        const categoryName = prompt("Enter category name:");
-        if (categoryName) {
-            const categoryList = document.getElementById('categoryList');
-            const li = document.createElement('li');
-            li.className = 'nav-item';
-            li.innerHTML = `
-                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
-                    <span>${categoryName}</span>
-                    <button class="btn btn-sm btn-danger ms-2" onclick="deleteCategory(this)">Delete</button>
-                </a>
-            `;
-            categoryList.appendChild(li);
-        }
-    }
-
-    // Delete Category
-    function deleteCategory(button) {
-        button.closest('li').remove();
-    }
-
-    // Add New Product
-    function openProductForm() {
-        const productName = prompt("Enter product name:");
-        const productDescription = prompt("Enter product description:");
-        if (productName && productDescription) {
-            const productTableBody = document.getElementById('productTableBody');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${productTableBody.rows.length + 1}</td>
-                <td>${productName}</td>
-                <td>${productDescription}</td>
-                <td>
-                    <button class="btn btn-sm btn-danger" onclick="deleteProduct(this)">Delete</button>
-                </td>
-            `;
-            productTableBody.appendChild(row);
-        } else {
-            alert("Product name and description cannot be empty!");
-        }
-    }
-
-    // Delete Product
-    function deleteProduct(button) {
-        button.closest('tr').remove();
-    }
-</script>
-
+    s
 
     
-</main>
+</script>
+
 </body>
 </html>
