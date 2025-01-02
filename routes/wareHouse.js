@@ -18,10 +18,11 @@ router.get('/products', checkWareHouse , (req, res) => {
 });
 router.post('/products', checkWareHouse, ProductsController.upload.single('image'),ProductsController.StoreProduct);
 router.get('/api/products', checkWareHouse, ProductsController.getProducts);
+router.get('/api/products/:id', checkWareHouse, ProductsController.getProductById);
 router.get('/api/suplliers', checkWareHouse, ProductsController.getSuplliers);
 router.get('/api/warehouses', checkWareHouse, ProductsController.getWarehouses);
-
-
+router.post('/products/delete', checkWareHouse, ProductsController.deleteProduct);
+router.post('/products/update', checkWareHouse, ProductsController.upload.single('image'), ProductsController.updateProduct)
 
 // categories routes
 
@@ -31,7 +32,8 @@ router.get('/Categories', checkWareHouse, (req, res) => {
 router.get('/api/categories', checkWareHouse, CategoriesController.getCategories);
 router.post('/categories', checkWareHouse, CategoriesController.addCategory);
 router.post('/categories/delete', checkWareHouse, CategoriesController.deleteCategory);
-
+router.post('/categories/edit', checkWareHouse, CategoriesController.editCategory);
+router.post('/categories/update', checkWareHouse, CategoriesController.updateCategory);
 
 
 
@@ -47,7 +49,5 @@ router.get('/settings', (req, res) => {
 router.get('/suppliers', (req, res) => {
     res.render('wareHouse/suppliers');
 });
-
-
 
 module.exports = router;

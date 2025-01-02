@@ -1,13 +1,19 @@
-
 document.querySelector('#addCategoryForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = document.querySelector('#addCategoryForm');
+    let idField = document.querySelector('#id_ctg').value;
     const formData = new FormData(form);
     const category = {};
     formData.forEach((value, key) => {
         category[key] = value;
     });
-    console.log(category);
+
+    console.log('the id is: ' + idField);
+
+
+    if (!idField) {
+
+        console.log('add');
 
     try {
         const response = await fetch('/wareHouse/categories', {
@@ -40,6 +46,43 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
     } catch (error) {
         console.log(error);
     }
+ 
+    } else {
+ 
+        console.log('update');
+         
+        try {
+            const response = await fetch('/wareHouse/categories/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(category)
+            });
+        
+            const result = await response.json();
+            if (result.success) {
+                document.querySelector('.message-success').innerText = result.message;
+                document.querySelector('.message-success').style.display = 'block';
+                document.querySelector('.message-danger').style.display = 'none';
+                form.reset();
+                setTimeout(() => {
+                    document.querySelector('.message-success').style.display = 'none';
+                }
+                , 3000);
+                getCategories();
+            } else if (result.message) {
+                document.querySelector('.message-danger').innerText = result.message;
+                document.querySelector('.message-danger').style.display = 'block';
+                setTimeout(() => {
+                    document.querySelector('.message-danger').style.display = 'none';
+                }
+                , 3000);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 });
 
 
@@ -54,7 +97,7 @@ async function getCategories() {
        
         let i = 1;
         result.forEach(category => {
-            console.log(category);
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${i++}</td>
@@ -113,19 +156,30 @@ async function deleteCtg(id) {
 }
 
 
-// async function editCtg(id){
+async function editCtg(id) {
 
-//     try {
-//         const response = await fetch() {
-            
-//         }
+    document.querySelector('.modal-title').innerText = 'Update Category';
 
-//     }
-//     catch (error) {
+    try {
+        const response = await fetch('/wareHouse/categories/edit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id }),
+        });
 
-//     }
-
-// }
+        const result = await response.json();
+        console.log(result);
+        document.querySelector('#id_ctg').value = result.id_ctg;
+        document.querySelector('#categoryName').value = result.name;
+        document.querySelector('#categoryDescription').value = result.description;
+        const editCategoryModal = new bootstrap.Modal(document.getElementById('addCategoryModal'));
+        editCategoryModal.show();
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 

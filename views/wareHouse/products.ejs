@@ -84,7 +84,7 @@
                     <h3 class="card-title">Manage Products</h3>
                     <div class="position-absolute bottom-0 start-1">
                       <select class="form-select me-2" id="warehouseFilter">
-                        <option value="" selected>All Warehouses</option>
+                        <option value="all" selected>All Warehouses</option>
                       </select>
                     </div>
                     <div class="ms-auto">
@@ -95,7 +95,7 @@
 
 
                 <div class="card-body">
-                    <table id="categoriesTable" class="table table-bordered table-striped">
+                    <table id="" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -164,7 +164,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button onclick="resetForm()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Image Preview -->
@@ -173,6 +173,7 @@
                             style="display: none; max-height: 200px;" />
                     </div>
                     <form id="addProductForm" enctype="multipart/form-data">
+                        <input type="hidden" id="productId" name="id_P">
                         <!-- Other Form Fields -->
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name</label>
@@ -210,7 +211,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Image</label>
-                            <input type="file" class="form-control" id="image" name="image" required>
+                            <input type="file" class="form-control" id="image" name="image">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Save</button>
                     </form>
@@ -241,6 +242,12 @@
                 $('#categorySidebar').removeClass('active');
             });
         });
+
+        resetForm = () => {
+            $('#addProductForm').trigger('reset');
+            $('#productId').val('');
+            $('#imagePreview').hide();
+        }        
     </script>
 
 
