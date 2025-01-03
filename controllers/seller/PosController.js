@@ -108,7 +108,7 @@ getProduct = async (req, res) => {
         console.log(error);
     }
 }
-
+ 
 
 addOrder = async (req, res) => {
     const { orders, customer, warehouse, discount, totalPrice } = req.body;

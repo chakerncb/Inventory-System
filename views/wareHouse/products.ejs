@@ -15,48 +15,45 @@
         href="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.4/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="../public/assets/css/adminlte.css">
     <style>
-    .sidebar {
-        position: fixed;
-        right: -350px;
-        top: 0;
-        height: 100%;
-        width: 350px;
-        
-        z-index: 1050;
-        transition: right 0.3s ease;
-    }
-    
-    .sidebar.active {
-        right: 0;
-    }
-    
-    /* Sidebar Header with Bootstrap Colors */
-    .sidebar-header {
-        padding: 15px;
-      
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    /* Sidebar Body */
-    .sidebar-body {
-        padding: 20px;
-       
-    }
-    
-    /* Table Styles */
-    #categoriesTable th,
-    #categoriesTable td {
-        text-align: center;
-        vertical-align: middle;
-    }
-    
-    /* Filter Dropdown */
-    #warehouseFilter {
-        min-width: 200px;
-    }
-    
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            right: -350px;
+            top: 0;
+            height: 100%;
+            width: 350px;
+            background: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            transition: right 0.3s ease;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 15px;
+            background: #007bff;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-body {
+            padding: 20px;
+        }
+
+        #categoriesTable th,
+        #categoriesTable td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #warehouseFilter {
+            min-width: 200px;
+        }
     </style>
 </head>
 
@@ -64,12 +61,12 @@
 
 
 
-<body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded sidebar-collapse">
-    <!--begin::App Wrapper-->
+  <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded sidebar-collapse"> <!--begin::App Wrapper-->
+    <%- include('../layouts/alerts') %>
     <div class="app-wrapper">
 
 
-        <!-- include the header -->
+<!-- include the header -->
 
         <%- include('../warehouse/partials/header') %>
 
@@ -87,7 +84,7 @@
                     <h3 class="card-title">Manage Products</h3>
                     <div class="position-absolute bottom-0 start-1">
                       <select class="form-select me-2" id="warehouseFilter">
-                        <option value="" selected>All Warehouses</option>
+                        <option value="all" selected>All Warehouses</option>
                       </select>
                     </div>
                     <div class="ms-auto">
@@ -98,7 +95,7 @@
 
 
                 <div class="card-body">
-                    <table id="categoriesTable" class="table table-bordered table-striped">
+                    <table id="" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -113,8 +110,8 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Data will be loaded dynamically -->
+                        <tbody id="productsTableBody">
+
                         </tbody>
                     </table>
                 </div>
@@ -122,34 +119,37 @@
     </div>
 
 
-    <!-- Sidebar for Add Category -->
-<div class="sidebar bg-body-secondary border-start shadow-lg" id="categorySidebar"
->
-    <div class="sidebar-header bg-primary text-white p-3 d-flex justify-content-between align-items-center">
-        <h5 class="m-0">Manage Categories</h5>
-        <button class="btn-close btn-close-white" id="closeCategorySidebar"></button>
+<!-- Sidebar for Add Category -->
+<div class="sidebar" id="categorySidebar">
+    <div class="sidebar-header">
+        <h5>Manage Categories</h5>
+        <button class="btn-close text-white" id="closeCategorySidebar"></button>
     </div>
-    <div class="sidebar-body p-3" style="height: auto; overflow-y: auto;">
+    <div class="sidebar-body">
         <!-- Add Category Form -->
         <form id="addCategoryForm" class="mb-3">
             <div class="mb-3">
                 <label for="categoryName" class="form-label">Category Name</label>
                 <input type="text" class="form-control" id="categoryName" name="name" required>
             </div>
+            <div class="mb-3">
+                <label for="categoryDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="categoryDescription" name="description">
+            </div>
             <button type="submit" class="btn btn-primary w-100 mb-3">Save</button>
         </form>
+        
 
         <!-- Categories Table -->
-        <h6 class="text-secondary">Existing Categories</h6>
-        <table id="sidebarCategoriesTable"  class="table table-bordered table-hover table-striped">
-            <thead class="table-primary">
+        <h6>Existing Categories</h6>
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="sidebarCategoriesTableBody">
                 <!-- Data will be loaded dynamically -->
             </tbody>
         </table>
@@ -164,10 +164,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button onclick="resetForm()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <!-- Image Preview -->
+                    <div class="mb-3 text-center">
+                        <img id="imagePreview" src="#" alt="Image Preview" class="img-fluid"
+                            style="display: none; max-height: 200px;" />
+                    </div>
                     <form id="addProductForm" enctype="multipart/form-data">
+                        <input type="hidden" id="productId" name="id_P">
+                        <!-- Other Form Fields -->
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="productName" name="name" required>
@@ -204,7 +211,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="image" class="form-label">Image</label>
-                            <input type="file" class="form-control" id="image" name="image" required>
+                            <input type="file" class="form-control" id="image" name="image">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Save</button>
                     </form>
@@ -235,6 +242,12 @@
                 $('#categorySidebar').removeClass('active');
             });
         });
+
+        resetForm = () => {
+            $('#addProductForm').trigger('reset');
+            $('#productId').val('');
+            $('#imagePreview').hide();
+        }        
     </script>
 
 
@@ -336,9 +349,7 @@
                 }
             });
         })();
-    </script>
-
-
+    </script>  
 </body>
 
 </html>
