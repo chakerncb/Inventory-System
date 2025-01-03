@@ -36,7 +36,14 @@ router.post('/categories/edit', checkWareHouse, CategoriesController.editCategor
 router.post('/categories/update', checkWareHouse, CategoriesController.updateCategory);
 
 
-
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.redirect('/');
+        }
+        res.redirect('/login');
+    });
+});
 
 router.get('/orders', (req, res) => {
     res.render('wareHouse/orders');

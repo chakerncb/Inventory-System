@@ -27,7 +27,7 @@ router.post('/login', AuthController.login);
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            return res.redirect('/admin');
+            return res.redirect('/');
         }
         res.redirect('/admin/login');
     });

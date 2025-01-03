@@ -56,8 +56,8 @@ login = (req, res) => {
         for (let count=0; count < results.length; count++) {
 
             if (results[count].email === email && await bcrypt.compare(password, results[count].password)) {
-                const user = results[count];
-                req.session.user = user;
+                const admin = results[count];
+                req.session.admin = admin;
                 res.redirect('/admin');
         }
         else {

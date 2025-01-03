@@ -110,7 +110,6 @@ getProducts();
 async function getCategories() {
     const categoriesSelect = document.getElementById('id_ctg');
     const categoriesTable = document.getElementById('sidebarCategoriesTableBody');
-    categoriesSelect.innerHTML = '';
     categoriesTable.innerHTML = '';
 
     try {
