@@ -1,7 +1,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     background: #f9f9f9;
     color: #333;
 }
@@ -9,15 +9,16 @@ body {
 .container {
     display: flex;
     gap: 2rem;
-    padding: 1rem;
-    width: 100%;
+    padding: 3rem;
+    width: 93%;
     margin: 0 auto;
 }
 
 
 .cart-section { /* Changed from 3 to 2 */
+    flex: 2;
     background: #fff;
-    padding: 1.5rem;
+    padding: 2%;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -43,11 +44,47 @@ body {
     border-radius: 4px;
 }
 
+.total {
+    display: flex;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    width: 100%;
+    border-top: 2px solid #e2e8f0;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: #f9f9f9;
+    border-radius: 0 0 8px 8px;
+    display: flex;
+}
+
+.total p {
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+    display: flex;
+    /* justify-content: space-between;
+    align-items: center; */
+}
 
 .cart-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1rem;
+    width: 100%;
+    max-height: 400px; /* Set a max height */
+    overflow-y: auto; /* Add vertical scroll bar */
+    display: block; /* Ensure the table can scroll */
+}
+
+.cart-table thead {
+    /* display: table; */
+    width: 100%;
+    table-layout: fixed; /* Ensure the header aligns with the columns */
+    position: sticky;
+    top: 0;
+    background: #fff; /* Background color to match the table */
+    z-index: 1; /* Ensure the header is above the table content */
 }
 
 .cart-table th {
@@ -57,8 +94,10 @@ body {
 }
 
 .cart-table td {
-    padding: 0.75rem;
+    padding: 0.75rem 0;
     border-bottom: 1px solid #e2e8f0;
+    width: 100%;
+    text-align: center;
 }
 
 
@@ -110,9 +149,9 @@ body {
 
 
 .products-section {
-    flex: 3; /* Changed from 2 to 3 */
+    flex: 4; /* Changed from 2 to 3 */
     background: #fff;
-    padding: 1rem;
+    padding: 2%;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     gap: 1rem;
@@ -196,11 +235,37 @@ body {
     overflow-y: auto;
     transition: right 0.3s ease;
     z-index: 1000;
+    /* padding: 1rem; */
 }
 
 .category-list.active {
     right: 0; 
 }
+
+.category-list h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+    padding-left: 1rem;
+}
+
+.category-list ul {
+    /* list-style: none; */
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.category-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.category-list li:hover {
+    background: #e2e8f0;
+}
+
 .brand-list {
     width: 45%; 
     background: #fff;
@@ -230,12 +295,45 @@ body {
 }
 
 .product-card {
+    height: auto;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 0.3rem;
     text-align: center;
     align-items: center;
     text-align: center;
+}
+
+.image-section {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    background: #f9f9f9;
+    border-radius: 8px 8px 0 0;
+}
+
+.image-section img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+
+.product-info {
+    width: 100%;
+    width: 60%;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* gap: 1rem; */
+
 }
 
 .product-card p {
@@ -292,6 +390,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
 }
 
 .modal-content {
@@ -300,6 +399,53 @@ body {
     border-radius: 8px;
     max-width: 500px;
     margin: 2rem auto;
+    position: relative;
+}
+
+#orderValidationModal .modal-content {
+    max-width: 600px;
+}
+
+#orderValidationModal h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+#orderValidationModal #orderInfo {
+    margin-bottom: 1rem;
+}
+
+#orderValidationModal p, #orderValidationModal ul {
+    margin: 0.5rem 0;
+}
+
+#orderValidationModal ul {
+    list-style: none;
+    padding: 0;
+}
+
+#orderValidationModal li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+#orderValidationModal button {
+    background: #48bb78;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+#orderValidationModal .close-btn {
+    background: #f56565;
+}
+
+#orderValidationModal button:hover {
+    opacity: 0.9;
 }
 
 .form-group {
@@ -335,7 +481,7 @@ body {
 
 
 .cart-section, .products-section {
-    flex: 1;
+    /* flex: 1; */
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

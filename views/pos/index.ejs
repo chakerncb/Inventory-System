@@ -33,29 +33,30 @@
                         <th>Price</th>
                         <th>Qty</th>
                         <th>Subtotal</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="cartItems">
+                <tbody class="cartItems" id="cartItems">
                     
                 </tbody>
             </table>
+            
+            
             <div class="cart-footer">
+                <div class="total">
+                    <p>Total :</p>
+                    <p id="TotalPrice"></p>
+                </div>
                 <div class="calculations">
                     <div class="calc-item">
-                        <label>Order Tax</label>
-                        <input type="number" id="orderTax" value="0">
-                        <span>%</span>
-                    </div>
-                    <div class="calc-item">
                         <label>Discount</label>
-                        <input type="number" id="discount" value="0">
+                        <input type="number" id="discount" min="0" max="100" value="0">
                         <span>%</span>
                     </div>
                     <div class="calc-item">
                         <label>Shipping</label>
                         <input type="number" id="shipping" value="0">
-                        <span>$</span>
+                        <span>DZ</span>
                     </div>
                 </div>
                 <div class="action-buttons">
@@ -80,19 +81,14 @@
     </div>
 
         
-            <div class="category-list" id="categoryList">
-                <h3>Categories</h3>
-                <ul>
-                    <li>Electronics</li>
-                    <li>Clothing</li>
-                    <li>Home & Kitchen</li>
-                    <li>Books</li>
-                    <li>Beauty</li>
-                </ul>
-            </div>
+    <div class="category-list" id="categoryList">
+        <h3>Categories</h3>
+        <ul id="categoryListItems">
+            
+        </ul>
+    </div>
 
 
-    
     <div class="modal" id="newCustomerModal">
         <div class="modal-content">
             <h2>Add New Customer</h2>
@@ -119,27 +115,22 @@
     </div>
 
     
-    <div class="modal" id="newProductModal">
+    <div class="modal" id="newOrderModal">
         <div class="modal-content">
-            <h2>Add New Product</h2>
-            <form id="newProductForm">
-                <div class="form-group">
-                    <label>Product Name</label>
-                    <input type="text" name="productName" required>
-                </div>
-                <div class="form-group">
-                    <label>Price</label>
-                    <input type="number" name="price" required>
-                </div>
-                <div class="form-group">
-                    <label>Product Image</label>
-                    <input type="file" name="productImage" accept="image/*" required>
-                </div>
-                <button type="submit">Save Product</button>
-                <button type="button" class="close-btn">Cancel</button>
+            
             </form>
         </div>
     </div>
+
+    <div class="modal" id="orderValidationModal">
+        <div class="modal-content">
+            <h2>Order Validation</h2>
+            <div id="orderInfo"></div>
+            <button id="confirmOrderBtn">Confirm Order</button>
+            <button class="close-btn" id="cancelOrderBtn">Cancel</button>
+        </div>
+    </div>
+
     <script src="/public/assets/js/posScript.js"></script>
     <script src="/scripts/seller/main.js" ></script>
 </body>

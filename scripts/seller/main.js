@@ -43,6 +43,12 @@ async function getProducts() {
             const productCard = document.createElement('div');
             productCard.classList.add('product-card');
 
+            const imageSection = document.createElement('div');
+            imageSection.classList.add('image-section');
+
+            const productInfo = document.createElement('div');
+            productInfo.classList.add('product-info');
+
             const productImage = document.createElement('img');
             productImage.src = `/storage/products/${product.image}`;
             productImage.alt = product.name;
@@ -56,12 +62,16 @@ async function getProducts() {
             const buyButton = document.createElement('button');
             buyButton.classList.add('buy-button');
             buyButton.textContent = 'Buy';
+            buyButton.onclick = () => {
+                buyProduct(product.id_P);
+            };
 
-            productCard.appendChild(productImage);
-            productCard.appendChild(productName);
-            productCard.appendChild(productPrice);
-            productCard.appendChild(buyButton);
-
+            imageSection.appendChild(productImage);
+            productInfo.appendChild(productName);
+            productInfo.appendChild(productPrice);
+            productInfo.appendChild(buyButton);
+            productCard.appendChild(imageSection);
+            productCard.appendChild(productInfo);
             productsGrid.appendChild(productCard);
         });
     }
@@ -142,3 +152,184 @@ async function getCostumers() {
 }
 
 getCostumers();
+
+
+async function getCategories() {
+    const categoriesList = document.getElementById('categoryListItems');
+    categoriesList.innerHTML = '';
+
+    try {
+        const response = await fetch('/seller/api/categories');
+        const data = await response.json();
+
+        data.forEach(category => {
+            const categoryItem = document.createElement('li');
+            categoryItem.textContent = category.name;
+            categoriesList.appendChild(categoryItem);
+        });
+
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+document.getElementById('categoryListBtn').addEventListener('click', getCategories);
+
+
+async function buyProduct(id_P) {
+
+    const cartItemsTable = document.getElementById('cartItems');
+
+    try {
+        const response = await fetch(`/seller/api/products/${id_P}`);
+        const product = await response.json();
+
+        let qty = 1;
+        const cartItem = document.createElement('tr');
+        cartItem.innerHTML = `
+            <td>${product.name}</td>
+            <td>${product.price} dz</td>
+            <td>${qty}</td>
+            <td>${product.price * qty} dz</td>
+            <td><button onclick="removeItem(${product.id_P})" class="remove-button">Remove</button></td>
+        `;
+        cartItem.classList.add('cart-item'+product.id_P);
+        cartItemsTable.appendChild(cartItem);
+
+
+        let orders = JSON.parse(sessionStorage.getItem('orders')) || [];
+        orders.push(product);
+        sessionStorage.setItem('orders', JSON.stringify(orders));
+
+        const totalPrice = orders.reduce((total, item) => total + item.price, 0);
+        console.log(`Total Price: ${totalPrice} dz`);
+        document.getElementById('TotalPrice').innerHTML = totalPrice + ' dz';
+
+        document.querySelector('.message-success').innerText = 'Product added to cart';
+        document.querySelector('.message-success').style.display = 'block';
+        // document.querySelector('.message-danger').style.display = 'none';
+        setTimeout(() => {
+            document.querySelector('.message-success').style.display = 'none';
+        }, 3000);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+    sessionStorage.removeItem('orders');
+    document.getElementById('TotalPrice').innerHTML = '0 dz';
+    const cartItemsTable = document.getElementById('cartItems');
+    cartItemsTable.innerHTML = '';
+    getProducts();
+
+    document.querySelector('.message-success').innerText = 'Cart cleared';
+});
+
+async function removeItem(id_P) {
+    const cartItemsTable = document.getElementById('cartItems');
+    let orders = JSON.parse(sessionStorage.getItem('orders'));
+    const productIndex = orders.findIndex(item => item.id_P == id_P);
+    if (productIndex > -1) {
+        orders.splice(productIndex, 1);
+        sessionStorage.setItem('orders', JSON.stringify(orders));
+        document.querySelector('.cart-item' + id_P).remove();
+        
+        const totalPrice = orders.reduce((total, item) => total + item.price, 0);
+        document.getElementById('TotalPrice').innerHTML = totalPrice + ' dz';
+    }
+}
+
+document.getElementById('discount').addEventListener('input', () => {
+    const discount = document.getElementById('discount').value;
+    const orders = JSON.parse(sessionStorage.getItem('orders'));
+    const totalPrice = orders.reduce((total, item) => total + item.price, 0);
+    const discountedPrice = totalPrice - (totalPrice * (discount / 100));
+    document.getElementById('TotalPrice').innerHTML = discountedPrice + ' dz';
+});
+
+
+
+document.getElementById('payBtn').addEventListener('click', () => {
+    const orders = JSON.parse(sessionStorage.getItem('orders'));
+    const customer = document.getElementById('customerSelect').value;
+    const warehouse = document.getElementById('warehouseSelect').value;
+    const discount = document.getElementById('discount').value;
+    const totalPrice = document.getElementById('TotalPrice').textContent;
+
+    const orderInfo = `
+        <p>Customer: ${customer}</p>
+        <p>Warehouse: ${warehouse}</p>
+        <p>Discount: ${discount}%</p>
+        <p>Total Price: ${totalPrice}</p>
+        <h3>Products:</h3>
+        <ul>
+            ${orders.map(order => `<li>${order.name} - ${order.price} dz</li>`).join('')}
+        </ul>
+    `;
+
+    document.getElementById('orderInfo').innerHTML = orderInfo;
+    document.getElementById('orderValidationModal').style.display = 'block';
+});
+
+document.getElementById('confirmOrderBtn').addEventListener('click', async () => {
+    const orders = JSON.parse(sessionStorage.getItem('orders'));
+    const customer = document.getElementById('customerSelect').value;
+    const warehouse = document.getElementById('warehouseSelect').value;
+    const discount = document.getElementById('discount').value;
+    const totalPrice = document.getElementById('TotalPrice').textContent;
+
+    const orderData = {
+        orders,
+        customer,
+        warehouse,
+        discount,
+        totalPrice
+    };
+
+    try {
+        const response = await fetch('/seller/orders', {
+            method: 'POST',
+            body: JSON.stringify(orderData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json();
+        if (result.success) {
+            document.querySelector('.message-success').innerText = result.message;
+            document.querySelector('.message-success').style.display = 'block';
+            document.querySelector('.message-danger').style.display = 'none';
+            setTimeout(() => {
+                document.querySelector('.message-success').style.display = 'none';
+            }, 3000);
+            sessionStorage.removeItem('orders');
+            document.getElementById('TotalPrice').innerHTML = '0 dz';
+            const cartItemsTable = document.getElementById('cartItems');
+            cartItemsTable.innerHTML = '';
+            getProducts();
+        } else if (result.message) {
+            document.querySelector('.message-danger').innerText = result.message;
+            document.querySelector('.message-danger').style.display = 'block';
+            setTimeout(() => {
+                document.querySelector('.message-danger').style.display = 'none';
+            }, 3000);
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+    document.getElementById('orderValidationModal').style.display = 'none';
+});
+
+document.getElementById('cancelOrderBtn').addEventListener('click', () => {
+    document.getElementById('orderValidationModal').style.display = 'none';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    sessionStorage.removeItem('orders');
+});

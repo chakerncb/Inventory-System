@@ -79,4 +79,80 @@ getCostumers = async (req, res) => {
     }
 }
 
-module.exports = { getWareHouses, getProducts, addCostumer , getCostumers};
+
+getCategories = async (req, res) => {
+    try {
+        const [categories] = await db.promise().query('SELECT * FROM categories');
+        return res.json(categories);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+
+getProduct = async (req, res) => {
+    const id = req.params.id_P;
+    if (!id) {
+        return res.status(400).json({ message: "Product ID is required" });
+    }
+
+    try {
+        const [product] = await db.promise().query('SELECT * FROM products WHERE id_P = ?', [id]);
+        if (product.length === 0) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+        return res.json(product[0]);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+
+addOrder = async (req, res) => {
+    const { orders, customer, warehouse, discount, totalPrice } = req.body;
+
+    console.log(orders , customer , warehouse , discount , totalPrice);
+
+    // if (!orders || !customer || !warehouse || !totalPrice) {
+    //     return res.status(400).json({ message: "All fields are required" });
+    // }
+
+    // if (!Array.isArray(orders) || orders.length === 0) {
+    //     return res.status(400).json({ message: "Orders must be a non-empty array" });
+    // }
+
+    // if (isNaN(customer) || isNaN(warehouse) || isNaN(totalPrice) || (discount && isNaN(discount))) {
+    //     return res.status(400).json({ message: "Invalid data" });
+    // }
+
+    // const customerExists = await db.promise().query('SELECT * FROM costumers WHERE id_C = ?', [customer]);
+    // if (customerExists[0].length === 0) {
+    //     return res.status(404).json({ message: "Customer not found" });
+    // }
+
+    // const warehouseExists = await db.promise().query('SELECT * FROM warehouses WHERE id_W = ?', [warehouse]);
+    // if (warehouseExists[0].length === 0) {
+    //     return res.status(404).json({ message: "Warehouse not found" });
+    // }
+
+    // try {
+    //     const orderPromises = orders.map(order => {
+    //         const { product_id, quantity } = order;
+    //         if (!product_id || !quantity || isNaN(product_id) || isNaN(quantity)) {
+    //             throw new Error("Invalid order data");
+    //         }
+
+    //         return db.promise().query('INSERT INTO orders (costumer_id, product_id, quantity, total) VALUES (?, ?, ?, ?)', [customer, product_id, quantity, totalPrice]);
+    //     });
+
+    //     await Promise.all(orderPromises);
+    //     return res.json({ message: 'Order added successfully' });
+    // }
+    // catch (error) {
+    //     console.log(error);
+    //     return res.status(500).json({ message: "Internal server error" });
+    // }
+}
+module.exports = { getWareHouses, getProducts, addCostumer , getCostumers , getCategories , getProduct , addOrder };

@@ -26,6 +26,8 @@ router.get('/logout', (req, res) => {
 
 router.get('/api/warehouses', checkSeller, PosController.getWareHouses);
 router.get('/api/products', checkSeller, PosController.getProducts);
+router.get('/api/categories', checkSeller, PosController.getCategories);
+router.get('/api/products/:id_P', checkSeller, PosController.getProduct);
 
 
 // costumer routes
@@ -35,6 +37,9 @@ router.post('/costumers', checkSeller, PosController.addCostumer);
 
 
 
+// orders routes
+
+router.post('/orders', checkSeller, PosController.addOrder);
 
 
 
