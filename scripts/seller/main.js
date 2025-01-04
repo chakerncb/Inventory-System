@@ -190,38 +190,62 @@ async function buyProduct(id_P) {
         cartItem.innerHTML = `
             <td>${product.name}</td>
             <td>${product.price} dz</td>
-            <td>${qty}</td>
-            <td>${product.price * qty} dz</td>
+            <td><input type="number" value="${qty}" min="1" class="quantity-input" data-id="${product.id_P}"></td>
+            <td class="item-total">${product.price * qty} dz</td>
             <td><button onclick="removeItem(${product.id_P})" class="remove-button">Remove</button></td>
         `;
-        cartItem.classList.add('cart-item'+product.id_P);
+        cartItem.classList.add('cart-item' + product.id_P);
         cartItemsTable.appendChild(cartItem);
 
-
         let orders = JSON.parse(sessionStorage.getItem('orders')) || [];
-        orders.push(product);
+        orders.push({
+            id_P: product.id_P,
+            id_w: product.id_w,
+            name: product.name,
+            price: product.price,
+            quantity: qty
+        });
+
         sessionStorage.setItem('orders', JSON.stringify(orders));
 
-        const totalPrice = orders.reduce((total, item) => total + item.price, 0);
-        console.log(`Total Price: ${totalPrice} dz`);
-        document.getElementById('TotalPrice').innerHTML = totalPrice + ' dz';
+        updateTotalPrice();
 
         document.querySelector('.message-success').innerText = 'Product added to cart';
         document.querySelector('.message-success').style.display = 'block';
-        // document.querySelector('.message-danger').style.display = 'none';
         setTimeout(() => {
             document.querySelector('.message-success').style.display = 'none';
         }, 3000);
+
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const id = e.target.getAttribute('data-id');
+                const newQty = parseInt(e.target.value);
+                const order = orders.find(item => item.id_P == id);
+                if (order) {
+                    order.quantity = newQty;
+                    e.target.closest('tr').querySelector('.item-total').innerText = `${order.price * newQty} dz`;
+                    sessionStorage.setItem('orders', JSON.stringify(orders));
+                    updateTotalPrice();
+                }
+            });
+        });
+
     } catch (error) {
         console.log(error);
     }
+}
+
+function updateTotalPrice() {
+    const orders = JSON.parse(sessionStorage.getItem('orders')) || [];
+    const totalPrice = orders.reduce((total, item) => total + (item.price * item.quantity), 0);
+    document.getElementById('TotalPrice').value = totalPrice;
 }
 
 
 
 document.getElementById('resetBtn').addEventListener('click', () => {
     sessionStorage.removeItem('orders');
-    document.getElementById('TotalPrice').innerHTML = '0 dz';
+    document.getElementById('TotalPrice').value = 0;
     const cartItemsTable = document.getElementById('cartItems');
     cartItemsTable.innerHTML = '';
     getProducts();
@@ -238,17 +262,17 @@ async function removeItem(id_P) {
         sessionStorage.setItem('orders', JSON.stringify(orders));
         document.querySelector('.cart-item' + id_P).remove();
         
-        const totalPrice = orders.reduce((total, item) => total + item.price, 0);
-        document.getElementById('TotalPrice').innerHTML = totalPrice + ' dz';
+        const totalPrice = orders.reduce((total, item) => total + (item.price * item.quantity), 0);
+        document.getElementById('TotalPrice').value = totalPrice;
     }
 }
 
 document.getElementById('discount').addEventListener('input', () => {
     const discount = document.getElementById('discount').value;
     const orders = JSON.parse(sessionStorage.getItem('orders'));
-    const totalPrice = orders.reduce((total, item) => total + item.price, 0);
+    const totalPrice = orders.reduce((total, item) => total + (item.price * item.quantity) , 0);
     const discountedPrice = totalPrice - (totalPrice * (discount / 100));
-    document.getElementById('TotalPrice').innerHTML = discountedPrice + ' dz';
+    document.getElementById('TotalPrice').value = discountedPrice;
 });
 
 
@@ -258,7 +282,7 @@ document.getElementById('payBtn').addEventListener('click', () => {
     const customer = document.getElementById('customerSelect').value;
     const warehouse = document.getElementById('warehouseSelect').value;
     const discount = document.getElementById('discount').value;
-    const totalPrice = document.getElementById('TotalPrice').textContent;
+    const totalPrice = document.getElementById('TotalPrice').value;
 
     const orderInfo = `
         <p>Customer: ${customer}</p>
@@ -280,7 +304,7 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
     const customer = document.getElementById('customerSelect').value;
     const warehouse = document.getElementById('warehouseSelect').value;
     const discount = document.getElementById('discount').value;
-    const totalPrice = document.getElementById('TotalPrice').textContent;
+    const totalPrice = document.getElementById('TotalPrice').value;
 
     const orderData = {
         orders,

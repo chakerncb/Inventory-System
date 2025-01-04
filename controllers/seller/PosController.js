@@ -113,46 +113,60 @@ getProduct = async (req, res) => {
 addOrder = async (req, res) => {
     const { orders, customer, warehouse, discount, totalPrice } = req.body;
 
-    console.log(orders , customer , warehouse , discount , totalPrice);
-
     // if (!orders || !customer || !warehouse || !totalPrice) {
     //     return res.status(400).json({ message: "All fields are required" });
     // }
 
-    // if (!Array.isArray(orders) || orders.length === 0) {
-    //     return res.status(400).json({ message: "Orders must be a non-empty array" });
-    // }
+    if (!Array.isArray(orders) || orders.length === 0) {
+        return res.status(400).json({ message: "please add a product !!" });
+    }
 
-    // if (isNaN(customer) || isNaN(warehouse) || isNaN(totalPrice) || (discount && isNaN(discount))) {
-    //     return res.status(400).json({ message: "Invalid data" });
-    // }
+    // console.log( customer , warehouse , totalPrice);
 
-    // const customerExists = await db.promise().query('SELECT * FROM costumers WHERE id_C = ?', [customer]);
-    // if (customerExists[0].length === 0) {
-    //     return res.status(404).json({ message: "Customer not found" });
-    // }
+    if (isNaN(customer) || isNaN(warehouse) || isNaN(totalPrice)) {
+        return res.status(400).json({ message: "Invalid data" });
+    }
 
-    // const warehouseExists = await db.promise().query('SELECT * FROM warehouses WHERE id_W = ?', [warehouse]);
-    // if (warehouseExists[0].length === 0) {
-    //     return res.status(404).json({ message: "Warehouse not found" });
-    // }
+    const customerExists = await db.promise().query('SELECT * FROM costumers WHERE id_c = ?', [customer]);
+    if (customerExists[0].length === 0) {
+        return res.status(404).json({ message: "Customer not found" });
+    }
 
-    // try {
-    //     const orderPromises = orders.map(order => {
-    //         const { product_id, quantity } = order;
-    //         if (!product_id || !quantity || isNaN(product_id) || isNaN(quantity)) {
-    //             throw new Error("Invalid order data");
-    //         }
+    const warehouseExists = await db.promise().query('SELECT * FROM warehouses WHERE id_W = ?', [warehouse]);
+    if (warehouseExists[0].length === 0) {
+        return res.status(404).json({ message: "Warehouse not found" });
+    }
 
-    //         return db.promise().query('INSERT INTO orders (costumer_id, product_id, quantity, total) VALUES (?, ?, ?, ?)', [customer, product_id, quantity, totalPrice]);
-    //     });
+    try {
+            const order_code = Math.random().toString(36).substring(2, 8).toUpperCase();
 
-    //     await Promise.all(orderPromises);
-    //     return res.json({ message: 'Order added successfully' });
-    // }
-    // catch (error) {
-    //     console.log(error);
-    //     return res.status(500).json({ message: "Internal server error" });
-    // }
+            const result = db.promise().query('INSERT INTO orders (order_code, total_price, status, payment_method, payment_status, id_cus) VALUES (?, ?, ?, ?, ?, ?)', [order_code, totalPrice, 'pending', 'cash', 'pending', customer]);
+
+            for (const order of orders) {
+                console.log('order :', order);
+                const [product] = await db.promise().query('SELECT * FROM products WHERE id_P = ?', [order.id_P]);
+
+                if (product.length === 0) {
+                    return res.status(404).json({ message: "Product not found" });
+                }
+
+                console.log('quantity :', product[0].quantity);
+
+                        const productQuantity = product[0].quantity - order.quantity;
+
+                        if (productQuantity < 0) {
+                            return res.status(400).json({ message: "Not enough quantity" });
+                        }
+
+                        await db.promise().query('UPDATE products SET quantity = ? WHERE id_P = ? AND id_W = ?', [productQuantity, order.id_P, order.id_w]);
+            }
+
+            return res.json({ success: true ,  message: 'Order added successfully' });
+
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
 }
 module.exports = { getWareHouses, getProducts, addCostumer , getCostumers , getCategories , getProduct , addOrder };
