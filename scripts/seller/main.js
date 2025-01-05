@@ -178,36 +178,42 @@ document.getElementById('categoryListBtn').addEventListener('click', getCategori
 
 
 async function buyProduct(id_P) {
-
     const cartItemsTable = document.getElementById('cartItems');
+    let orders = JSON.parse(sessionStorage.getItem('orders')) || [];
 
     try {
         const response = await fetch(`/seller/api/products/${id_P}`);
         const product = await response.json();
 
-        let qty = 1;
-        const cartItem = document.createElement('tr');
-        cartItem.innerHTML = `
-            <td>${product.name}</td>
-            <td>${product.price} dz</td>
-            <td><input type="number" value="${qty}" min="1" class="quantity-input" data-id="${product.id_P}"></td>
-            <td class="item-total">${product.price * qty} dz</td>
-            <td><button onclick="removeItem(${product.id_P})" class="remove-button">Remove</button></td>
-        `;
-        cartItem.classList.add('cart-item' + product.id_P);
-        cartItemsTable.appendChild(cartItem);
+        let existingOrder = orders.find(order => order.id_P === id_P);
+        if (existingOrder  && existingOrder.quantity < product.quantity) {
+            existingOrder.quantity += 1;
+            product.quantity -= 1;
+            document.querySelector(`.cart-item${id_P} .quantity-input`).value = existingOrder.quantity;
+            document.querySelector(`.cart-item${id_P} .item-total`).innerText = `${existingOrder.price * existingOrder.quantity} dz`;
+        } else if (!existingOrder && product.quantity > 0) {
+            let qty = 1;
+            const cartItem = document.createElement('tr');
+            cartItem.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.price} dz</td>
+                <td><input type="number" value="${qty}" min="1" max="${product.quantity}" class="quantity-input" data-id="${product.id_P}"></td>
+                <td class="item-total">${product.price * qty} dz</td>
+                <td><button onclick="removeItem(${product.id_P})" class="remove-button">Remove</button></td>
+            `;
+            cartItem.classList.add('cart-item' + product.id_P);
+            cartItemsTable.appendChild(cartItem);
 
-        let orders = JSON.parse(sessionStorage.getItem('orders')) || [];
-        orders.push({
-            id_P: product.id_P,
-            id_w: product.id_w,
-            name: product.name,
-            price: product.price,
-            quantity: qty
-        });
+            orders.push({
+                id_P: product.id_P,
+                id_w: product.id_w,
+                name: product.name,
+                price: product.price,
+                quantity: qty
+            });
+        }
 
         sessionStorage.setItem('orders', JSON.stringify(orders));
-
         updateTotalPrice();
 
         document.querySelector('.message-success').innerText = 'Product added to cart';
@@ -335,6 +341,8 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
             const cartItemsTable = document.getElementById('cartItems');
             cartItemsTable.innerHTML = '';
             getProducts();
+            showInvoice(result.data);
+            document.getElementById('printInvoiceBtn').style.display = 'block';
         } else if (result.message) {
             document.querySelector('.message-danger').innerText = result.message;
             document.querySelector('.message-danger').style.display = 'block';
@@ -357,3 +365,19 @@ document.getElementById('cancelOrderBtn').addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('orders');
 });
+
+
+document.getElementById('printInvoiceBtn').addEventListener('click', async () => {
+    console.log(data.invoicePath);
+    // try{
+        
+    //     const response = await fetch(`/seller/api/invoices/${data.invoicePath}`);
+    //     // const product = await response.json();
+
+    // }
+    // catch(error){
+    //     console.log(error);
+    // }
+});
+
+

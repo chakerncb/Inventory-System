@@ -158,13 +158,13 @@ getProductById = async (req, res) => {
 updateProduct = async (req , res) => {
 
     const { id_P ,name, id_ctg, id_supllier, id_warehouse, description, quantity, price } = req.body;
-    const image = req.file ? req.file.filename : 'no-image.png';
+    const image = req.file;
 
 
-        if (req.file.size > 1024 * 1024 * 5) {
-            message = 'Image should be less than 5mb';
-            return res.json({ message });
-        }
+        // if (req.file.size > 1024 * 1024 * 5) {
+        //     message = 'Image should be less than 5mb';
+        //     return res.json({ message });
+        // }
 
         if (name.length < 6) {
             message = 'Name should be atleast 6 characters long';

@@ -1,4 +1,7 @@
 const db = require("../../config/db");
+const fs = require('fs');
+const invoice = require('../../scripts/seller/invoice');
+
 
 getWareHouses = async (req, res) => {
 
@@ -14,7 +17,7 @@ getWareHouses = async (req, res) => {
 getProducts = async (req, res) => {
     
     try {
-        let [result] = await db.promise().query('SELECT * FROM products');
+        let [result] = await db.promise().query('SELECT * FROM products WHERE quantity > 0');
         return res.json(result);
     }
     catch (error) {
@@ -127,10 +130,18 @@ addOrder = async (req, res) => {
         return res.status(400).json({ message: "Invalid data" });
     }
 
-    const customerExists = await db.promise().query('SELECT * FROM costumers WHERE id_c = ?', [customer]);
+    const [customerExists] = await db.promise().query('SELECT * FROM costumers WHERE id_c = ?', [customer]);
     if (customerExists[0].length === 0) {
         return res.status(404).json({ message: "Customer not found" });
     }
+ 
+     let costumer = [
+        {
+            name: customerExists[0].name,
+            phone: customerExists[0].phone,
+            email: customerExists[0].email
+        }
+     ]
 
     const warehouseExists = await db.promise().query('SELECT * FROM warehouses WHERE id_W = ?', [warehouse]);
     if (warehouseExists[0].length === 0) {
@@ -143,14 +154,12 @@ addOrder = async (req, res) => {
             const result = db.promise().query('INSERT INTO orders (order_code, total_price, status, payment_method, payment_status, id_cus) VALUES (?, ?, ?, ?, ?, ?)', [order_code, totalPrice, 'pending', 'cash', 'pending', customer]);
 
             for (const order of orders) {
-                console.log('order :', order);
+                // console.log('order :', order);
                 const [product] = await db.promise().query('SELECT * FROM products WHERE id_P = ?', [order.id_P]);
 
                 if (product.length === 0) {
                     return res.status(404).json({ message: "Product not found" });
                 }
-
-                console.log('quantity :', product[0].quantity);
 
                         const productQuantity = product[0].quantity - order.quantity;
 
@@ -161,7 +170,60 @@ addOrder = async (req, res) => {
                         await db.promise().query('UPDATE products SET quantity = ? WHERE id_P = ? AND id_W = ?', [productQuantity, order.id_P, order.id_w]);
             }
 
-            return res.json({ success: true ,  message: 'Order added successfully' });
+            // create invoice
+            let products = [];
+
+            orders.forEach(order => {
+                products.push({
+                    name: order.name,
+                    quantity: order.quantity,
+                    price: order.price
+                });                
+            });
+
+            var data = {
+                "currency": "USD",
+                "taxNotation": "vat",
+                "marginTop": 25,
+                "marginRight": 25,
+                "marginLeft": 25,
+                "marginBottom": 25,
+                // "logo": "/public/img/inventory-management-3-48.png",
+                // "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
+                "sender": {
+                    "company": "chaker",
+                    "address": "guelma algeria",
+                    "zip": "1234 AB",
+                    "city": "Guelma",
+                    "country": "Algeia"
+                },
+                "client": {
+                    "company": costumer.name ,
+                    "phone": costumer.phone ,
+                    "email": costumer.email ,
+                    // "city": "Clientcity",
+                    "country": "Algeria"
+                },
+                "invoiceNumber": order_code,
+                "invoiceDate": new Date(),
+                "products": products.map(product => ({
+                    name: product.name,
+                    quantity: product.quantity,
+                    price: product.price
+                })),
+                "bottomNotice": "thank you for your business",
+                "dueDate": new Date()
+            };
+
+            console.log('data :', orders);
+
+            let invoiceName = order_code;
+            invoice.createInvoice(data, invoiceName);
+
+            // let invoicePath = '/storage/invoices/' + invoiceName + '.pdf';
+
+
+          return res.json({ success: true ,  message: 'Order added successfully' , data: { ...data, totalPrice } });
 
     }
     catch (error) {

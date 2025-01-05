@@ -3,3 +3,4 @@ migrations
 .env
 .hintrc
 /storage/products/*
+/storage/invoices/*
