@@ -67,6 +67,15 @@ body {
     align-items: center; */
 }
 
+.total input {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #d6d6d600;
+    font-size: larger;
+}
+
 .cart-table {
     width: 100%;
     border-collapse: collapse;
