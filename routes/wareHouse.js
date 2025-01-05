@@ -4,6 +4,7 @@ const checkWareHouse = require('../middleware/WareHouseAuthentication');
 const ProductsController = require('../controllers/wareHouse/ProductsController');
 const CategoriesController = require('../controllers/wareHouse/CategorysController');
 const HomeController = require('../controllers/wareHouse/HomeController');
+const OrdersController = require('../controllers/wareHouse/OrdersController');
 
 router.use((req, res, next) => {
     res.locals.session = req.session;
@@ -47,11 +48,13 @@ router.get('/logout', (req, res) => {
     });
 });
 
-router.get('/orders', (req, res) => {
+router.get('/orders', checkWareHouse, (req, res) => {
     res.render('wareHouse/orders');
 });
+router.get('/api/orders', checkWareHouse, OrdersController.getOrders);
 router.get('/api/orders/pending', checkWareHouse, HomeController.CountPendingOrders);
 router.get('/api/orders/completed', checkWareHouse, HomeController.CountCompletedOrders);
+// router.post('/orders/delete', checkWareHouse, OrdersController.deleteOrder);
 
 router.get('/settings', (req, res) => {
     res.render('wareHouse/settings');
