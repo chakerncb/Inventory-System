@@ -50,32 +50,18 @@
 
 
         <div> <!-- Info Boxes Style 2 -->
-            <div class="info-box mb-3 text-bg-warning">
-                <span class="info-box-icon"><i class="bi bi-person-fill"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Total Employees</span>
-                    <span class="info-box-number">150</span>
-                </div> <!-- /.info-box-content -->
-            </div> <!-- /.info-box -->
-            <div class="info-box mb-3 text-bg-success">
-                <span class="info-box-icon"><i class="bi bi-box-seam"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Items in Inventory</span>
-                    <span class="info-box-number">5,200</span>
-                </div> <!-- /.info-box-content -->
-            </div> <!-- /.info-box -->
             <div class="info-box mb-3 text-bg-danger">
                 <span class="info-box-icon"><i class="bi bi-truck"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Pending Deliveries</span>
-                    <span class="info-box-number">45</span>
+                    <span class="info-box-text">Pending Orders</span>
+                    <span class="pending-orders info-box-number"></span>
                 </div> <!-- /.info-box-content -->
             </div> <!-- /.info-box -->
             <div class="info-box mb-3 text-bg-info">
                 <span class="info-box-icon"><i class="bi bi-clipboard-data"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Completed Orders</span>
-                    <span class="info-box-number">1,200</span>
+                    <span class="completed-orders info-box-number"></span>
                 </div> <!-- /.info-box-content -->
             </div>
         </div>
@@ -89,63 +75,11 @@
                     data-lte-toggle="card-remove"> <i class="bi bi-x-lg"></i> </button> </div>
         </div> <!-- /.card-header -->
         <div class="card-body p-0">
-            <div class="px-2">
-                <div class="d-flex border-top py-2 px-1">
-                    <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image"
-                            class="img-size-50"> </div>
-                    <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
-                            Samsung TV
-                            <span class="badge text-bg-warning float-end">
-                                $1800
-                            </span> </a>
-                        <div class="text-truncate">
-                            Samsung 32" 1080p 60Hz LED Smart HDTV.
-                        </div>
-                    </div>
-                </div> <!-- /.item -->
-                <div class="d-flex border-top py-2 px-1">
-                    <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image"
-                            class="img-size-50"> </div>
-                    <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
-                            Bicycle
-                            <span class="badge text-bg-info float-end">
-                                $700
-                            </span> </a>
-                        <div class="text-truncate">
-                            26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                        </div>
-                    </div>
-                </div> <!-- /.item -->
-                <div class="d-flex border-top py-2 px-1">
-                    <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image"
-                            class="img-size-50"> </div>
-                    <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
-                            Xbox One
-                            <span class="badge text-bg-danger float-end">
-                                $350
-                            </span> </a>
-                        <div class="text-truncate">
-                            Xbox One Console Bundle with Halo Master Chief
-                            Collection.
-                        </div>
-                    </div>
-                </div> <!-- /.item -->
-                <div class="d-flex border-top py-2 px-1">
-                    <div class="col-2"> <img src="../../dist/assets/img/default-150x150.png" alt="Product Image"
-                            class="img-size-50"> </div>
-                    <div class="col-10"> <a href="javascript:void(0)" class="fw-bold">
-                            PlayStation 4
-                            <span class="badge text-bg-success float-end">
-                                $399
-                            </span> </a>
-                        <div class="text-truncate">
-                            PlayStation 4 500GB Console (PS4)
-                        </div>
-                    </div>
-                </div> <!-- /.item -->
+            <div class="latest-Products px-2">
+                
             </div>
         </div> <!-- /.card-body -->
-        <div class="card-footer text-center"> <a href="javascript:void(0)" class="uppercase">
+        <div class="card-footer text-center"> <a href="/warehouse/products" class="uppercase">
                 View All Products
             </a> </div> <!-- /.card-footer -->
     </div> <!-- /.card -->
@@ -188,6 +122,7 @@
 
 <!-- AdminLTE Core JS -->
 <script src="../public/assets/js/adminlte.js"></script>
+<script src="/scripts/wareHouse/dashboard.js" ></script>
 
 <!-- Custom Scripts -->
 <script>

@@ -3,6 +3,7 @@ const router = express.Router();
 const checkWareHouse = require('../middleware/WareHouseAuthentication');
 const ProductsController = require('../controllers/wareHouse/ProductsController');
 const CategoriesController = require('../controllers/wareHouse/CategorysController');
+const HomeController = require('../controllers/wareHouse/HomeController');
 
 router.use((req, res, next) => {
     res.locals.session = req.session;
@@ -23,6 +24,7 @@ router.get('/api/suplliers', checkWareHouse, ProductsController.getSuplliers);
 router.get('/api/warehouses', checkWareHouse, ProductsController.getWarehouses);
 router.post('/products/delete', checkWareHouse, ProductsController.deleteProduct);
 router.post('/products/update', checkWareHouse, ProductsController.upload.single('image'), ProductsController.updateProduct)
+
 
 // categories routes
 
@@ -48,6 +50,8 @@ router.get('/logout', (req, res) => {
 router.get('/orders', (req, res) => {
     res.render('wareHouse/orders');
 });
+router.get('/api/orders/pending', checkWareHouse, HomeController.CountPendingOrders);
+router.get('/api/orders/completed', checkWareHouse, HomeController.CountCompletedOrders);
 
 router.get('/settings', (req, res) => {
     res.render('wareHouse/settings');

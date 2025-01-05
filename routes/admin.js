@@ -5,6 +5,7 @@ const authMiddleware = require('../middleware/AdminAuthentication');
 const EmployeeController = require('../controllers/admin/employeeController');
 const SuppliersController = require('../controllers/admin/SuppliersController');
 const WareHouseController = require('../controllers/admin/WareHouseController');
+const HomeController = require('../controllers/admin/HomeController');
 
 router.use((req, res, next) => {
     res.locals.session = req.session;
@@ -41,6 +42,7 @@ router.get('/logout', (req, res) => {
 router.get('/products', authMiddleware, (req, res) => {
     res.render('admin/products');
 });
+router.get('/api/products/count', authMiddleware, HomeController.countProducts);
 
 
 router.get('/orders', authMiddleware, (req, res) => {
@@ -62,8 +64,7 @@ router.get('/api/roles', authMiddleware , EmployeeController.getRoles);
 router.post('/employees/delete', authMiddleware, EmployeeController.deleteEmployee);
 router.post('/employees/edit', authMiddleware, EmployeeController.editEmployee);
 router.post('/employees/update', authMiddleware, EmployeeController.updateEmployee);
-
-
+router.get('/api/employees/count', authMiddleware, HomeController.countEmployees);
 
 
 // supplier routes :
@@ -98,8 +99,17 @@ router.post('/wareHouses/edit', authMiddleware, WareHouseController.editWarehous
 router.post('/wareHouses/update', authMiddleware, WareHouseController.updateWarehouse);
 
 
-// admin settings :
 
+// orders routes 
+
+
+router.get('/api/orders/count', authMiddleware, HomeController.countOrders);
+
+// costumer routes :
+
+router.get('/api/costumers/count', authMiddleware, HomeController.countCostumers);
+
+// admin settings :
 
 router.get('/settings', authMiddleware, (req, res) => {
     res.render('admin/settings');
