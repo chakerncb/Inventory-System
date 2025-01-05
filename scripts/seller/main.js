@@ -367,17 +367,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.getElementById('printInvoiceBtn').addEventListener('click', async () => {
-    console.log(data.invoicePath);
-    // try{
-        
-    //     const response = await fetch(`/seller/api/invoices/${data.invoicePath}`);
-    //     // const product = await response.json();
-
-    // }
-    // catch(error){
-    //     console.log(error);
-    // }
+document.getElementById('printInvoiceBtn').addEventListener('click', () => {
+    const invoiceContent = document.querySelector('.modal-body').innerHTML;
+    const printWindow = window.open('', '', 'height=600,width=800');
+    printWindow.document.write('<html><head><title>Invoice</title>');
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(invoiceContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
 });
 
 
