@@ -73,10 +73,11 @@
             <div class="product-header">
                 <!-- <button class="add-product-btn" id="addProductBtn">+ Add New Product</button> -->
                 <button class="category-btn" id="categoryListBtn">List of Category</button>
-                <button class="brand-btn">Brand List</button>
+                <button class="brand-btn" id="settings-btn">Settings</button>
+  
                 <input type="text" class="search-input" id="search-input" placeholder="Search by Name">
             </div>
-            <div class="products-grid" id="productsGrid">
+            <div style="overflow-y: auto;" class="products-grid" id="productsGrid">
                                        
             </div>
         </div>
@@ -89,6 +90,33 @@
             
         </ul>
     </div>
+
+
+
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+    <button id="close-sidebar" class="close-btn">&times;</button>
+    <ul>
+ 
+      <li><a href="#" id="logout-btn">Logout</a></li>
+    </ul>
+  </div>
+  
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-modal" class="modal">
+    <div class="modal-content">
+      <h3>Are you sure you want to logout?</h3>
+      <div class="modal-actions">
+        <button id="confirm-logout" class="modal-btn confirm">Yes</button>
+        <button id="cancel-logout" class="modal-btn cancel">No</button>
+      </div>
+    </div>
+  </div>
+  
+ 
+  
 
 
     <div class="modal" id="newCustomerModal">
@@ -218,6 +246,43 @@
                 </div>
             `;
         }
+    </script>
+    <script>
+        // Select elements
+const settingsBtn = document.getElementById('settings-btn');
+const sidebar = document.getElementById('sidebar');
+const closeSidebar = document.getElementById('close-sidebar');
+const logoutBtn = document.getElementById('logout-btn');
+const logoutModal = document.getElementById('logout-modal');
+const confirmLogout = document.getElementById('confirm-logout');
+const cancelLogout = document.getElementById('cancel-logout');
+
+// Toggle sidebar
+settingsBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('active');
+});
+
+// Close sidebar
+closeSidebar.addEventListener('click', () => {
+  sidebar.classList.remove('active');
+});
+
+// Show logout modal
+logoutBtn.addEventListener('click', () => {
+  logoutModal.style.display = 'flex';
+});
+
+// Handle confirm logout
+confirmLogout.addEventListener('click', () => {
+  // Perform logout action
+  window.location.href = '/login';
+});
+
+// Handle cancel logout
+cancelLogout.addEventListener('click', () => {
+  logoutModal.style.display = 'none';
+});
+
     </script>
 </body>
 </html>
