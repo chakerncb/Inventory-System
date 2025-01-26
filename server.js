@@ -32,6 +32,15 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', AuthController.login);
 
+app.get('/logout' , (req,res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.redirect('/');
+        }
+        res.redirect('/login');
+    });
+});
+
 
 const wearHouseRoutes = require('./routes/wareHouse');
 app.use('/wareHouse',wearHouseRoutes);

@@ -1,10 +1,14 @@
+document.addEventListener('DOMContentLoaded' , function () {
+    getOrders();
+});
+
+
 async function getOrders() {
     const ordersTable = document.getElementById('ordersTableBody');
 
     try {
         const response = await fetch('/warehouse/api/orders');
         const orders = await response.json();
-        console.log(orders);
 
         orders.forEach(order => {
             const row = document.createElement('tr');
@@ -14,7 +18,7 @@ async function getOrders() {
                 <td>${order.status}</td>
                 <td>${order.customer}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="deleteOrder(${order.id})">Delete</button>
+                    <button class="btn btn-danger" onclick="deleteOrder(${order.order_code})">Delete</button>
                 </td>
             `;
             ordersTable.appendChild(row);
@@ -26,6 +30,16 @@ async function getOrders() {
 
 
 
+async function deleteOrder(orderID) {
 
-getOrders();
+    try {
+
+        const response = await fetch(`/warehouse/order/delete/${orderID}`);
+        
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 
