@@ -131,17 +131,15 @@ addOrder = async (req, res) => {
     }
 
     const [customerExists] = await db.promise().query('SELECT * FROM costumers WHERE id_c = ?', [customer]);
-    if (customerExists[0].length === 0) {
+    if (customerExists.length === 0) {
         return res.status(404).json({ message: "Customer not found" });
     }
- 
-     let costumer = [
-        {
-            name: customerExists[0].name,
-            phone: customerExists[0].phone,
-            email: customerExists[0].email
-        }
-     ]
+
+    let customerData = {
+        name: customerExists[0].name,
+        phone: customerExists[0].phone,
+        email: customerExists[0].email
+    };
 
     const warehouseExists = await db.promise().query('SELECT * FROM warehouses WHERE id_W = ?', [warehouse]);
     if (warehouseExists[0].length === 0) {
@@ -198,9 +196,9 @@ addOrder = async (req, res) => {
                     "country": "Algeia"
                 },
                 "client": {
-                    "company": costumer.name ,
-                    "phone": costumer.phone ,
-                    "email": costumer.email ,
+                    "company": customerData.name,
+                    "phone": customerData.phone,
+                    "email": customerData.email,
                     // "city": "Clientcity",
                     "country": "Algeria"
                 },
@@ -215,13 +213,8 @@ addOrder = async (req, res) => {
                 "dueDate": new Date()
             };
 
-            console.log('data :', orders);
-
             let invoiceName = order_code;
             invoice.createInvoice(data, invoiceName);
-
-            // let invoicePath = '/storage/invoices/' + invoiceName + '.pdf';
-
 
           return res.json({ success: true ,  message: 'Order added successfully' , data: { ...data, totalPrice } });
 
