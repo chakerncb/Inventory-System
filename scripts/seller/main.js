@@ -9,7 +9,7 @@ async function getWareHouse () {
         data.forEach(warehouse => {
             const option = document.createElement('option');
             option.value = warehouse.id_w;
-            option.text = 'warehouse ' + warehouse.id_w;
+            option.text = 'warehouse ' + warehouse.id_w + ' ('+ warehouse.description + ')';
             warehouseSelect.appendChild(option);
         });
 
@@ -45,6 +45,10 @@ async function getProducts() {
 
             const imageSection = document.createElement('div');
             imageSection.classList.add('image-section');
+            imageSection.style.alignItems = 'center';
+            imageSection.style.justifyContent = 'center';
+            imageSection.style.display = 'flex';
+            imageSection.style.textAlign = 'center';
 
             const productInfo = document.createElement('div');
             productInfo.classList.add('product-info');
@@ -55,6 +59,20 @@ async function getProducts() {
 
             const productName = document.createElement('h3');
             productName.textContent = product.name;
+
+            const productContity = document.createElement('p');
+            productContity.textContent = `X ${product.quantity}`;
+            productContity.style.position = 'absolute';
+            productContity.style.bottom = '0';
+            productContity.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            productContity.style.color = 'white';
+            productContity.style.padding = '5px';
+            productContity.style.width = '100%';
+            productContity.style.margin = '4px';
+            productContity.style.textAlign = 'center';
+            productContity.style.fontSize = '14px';
+            productContity.style.fontWeight = 'bold';
+            imageSection.style.position = 'relative';
 
             const productPrice = document.createElement('p');
             productPrice.textContent = `${product.price} dz`;
@@ -67,6 +85,7 @@ async function getProducts() {
             };
 
             imageSection.appendChild(productImage);
+            imageSection.appendChild(productContity);
             productInfo.appendChild(productName);
             productInfo.appendChild(productPrice);
             productInfo.appendChild(buyButton);

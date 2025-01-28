@@ -116,17 +116,11 @@ getProduct = async (req, res) => {
 addOrder = async (req, res) => {
     const { orders, customer, warehouse, discount, totalPrice } = req.body;
 
-    // if (!orders || !customer || !warehouse || !totalPrice) {
-    //     return res.status(400).json({ message: "All fields are required" });
-    // }
-
     if (!Array.isArray(orders) || orders.length === 0) {
         return res.status(400).json({ message: "please add a product !!" });
     }
 
-    // console.log( customer , warehouse , totalPrice);
-
-    if (isNaN(customer) || isNaN(warehouse) || isNaN(totalPrice)) {
+    if (isNaN(customer) || isNaN(totalPrice)) {
         return res.status(400).json({ message: "Invalid data" });
     }
 
@@ -141,9 +135,11 @@ addOrder = async (req, res) => {
         email: customerExists[0].email
     };
 
-    const warehouseExists = await db.promise().query('SELECT * FROM warehouses WHERE id_W = ?', [warehouse]);
-    if (warehouseExists[0].length === 0) {
-        return res.status(404).json({ message: "Warehouse not found" });
+    if (warehouse !== 'all'){
+        const warehouseExists = await db.promise().query('SELECT * FROM warehouses WHERE id_W = ?', [warehouse]);
+        if (warehouseExists[0].length === 0) {
+            return res.status(404).json({ message: "Warehouse not found" });
+        }
     }
 
     try {
@@ -175,7 +171,8 @@ addOrder = async (req, res) => {
                 products.push({
                     name: order.name,
                     quantity: order.quantity,
-                    price: order.price
+                    price: order.price,
+                    warehouse: order.id_w
                 });                
             });
 
@@ -205,7 +202,7 @@ addOrder = async (req, res) => {
                 "invoiceNumber": order_code,
                 "invoiceDate": new Date(),
                 "products": products.map(product => ({
-                    name: product.name,
+                    name: product.name + ' (warehouse ' + product.warehouse + ')',
                     quantity: product.quantity,
                     price: product.price
                 })),
