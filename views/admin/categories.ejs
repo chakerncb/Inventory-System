@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>AdminLTE v4 | Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard.">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../public/assets/css/adminlte.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
-    <style>
+
+
+<%- include('partials/head') %>
+
+<style>
         .right-sidebar {
             position: fixed;
             top: 0;
@@ -33,8 +26,9 @@
             margin-bottom: 1rem;
         }
     </style>
-  </head>
-  <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded sidebar-collapse">
+
+
+<body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary app-loaded sidebar-collapse">
     <div class="app-wrapper">
         <%- include('partials/header') %>
         <%- include('partials/left-Sidebar') %>

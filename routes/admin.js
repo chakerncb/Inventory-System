@@ -12,7 +12,7 @@ router.use((req, res, next) => {
     next();
 });
 router.get('/', authMiddleware, (req, res) => {
-    res.render('admin/dashboard');
+    res.render('admin/dashboard' , {title: 'Dashboard'} );
 });
 
 
@@ -40,13 +40,13 @@ router.get('/logout', (req, res) => {
 
 
 router.get('/products', authMiddleware, (req, res) => {
-    res.render('admin/products');
+    res.render('admin/products' , {title: 'Manage Products'} );
 });
 router.get('/api/products/count', authMiddleware, HomeController.countProducts);
 
 
 router.get('/orders', authMiddleware, (req, res) => {
-    res.render('admin/orders');
+    res.render('admin/orders' , {title: 'Manage Orders'} );
 });
 
 
@@ -54,7 +54,7 @@ router.get('/orders', authMiddleware, (req, res) => {
 
 
 router.get('/employees', authMiddleware, (req, res) => {
-    res.render('admin/employees');
+    res.render('admin/employees' , {title: 'Manage Employees'} );
 });
 
 router.post('/employees', authMiddleware, EmployeeController.newEmployee);
@@ -71,7 +71,7 @@ router.get('/api/employees/count', authMiddleware, HomeController.countEmployees
 
 
 router.get('/suppliers', authMiddleware, (req, res) => {
-    res.render('admin/suppliers');
+    res.render('admin/suppliers' , {title: 'Manage Suppliers'} );
 });
 
 router.post('/suppliers', authMiddleware, SuppliersController.newSupplier);
@@ -88,7 +88,7 @@ router.post('/suppliers/update', authMiddleware, SuppliersController.updateSuppl
 
 
 router.get('/wareHouses', authMiddleware, (req, res) => {
-    res.render('admin/wareHouses');
+    res.render('admin/wareHouses' , {title: 'Manage Warehouses'} );
 });
 
 router.post('/wareHouses', authMiddleware, WareHouseController.newWareHouse);
@@ -112,7 +112,7 @@ router.get('/api/costumers/count', authMiddleware, HomeController.countCostumers
 // admin settings :
 
 router.get('/settings', authMiddleware, (req, res) => {
-    res.render('admin/settings');
+    res.render('admin/settings' , {title: 'Settings'} );
 });
 
 module.exports = router;

@@ -12,11 +12,11 @@ router.use((req, res, next) => {
 });
 
 router.get('/', checkWareHouse, (req, res) => {
-    res.render('wareHouse/dashboard');
+    res.render('wareHouse/dashboard' , {title: 'Dashboard'});
 });
 
 router.get('/products', checkWareHouse , (req, res) => {
-    res.render('wareHouse/products');
+    res.render('wareHouse/products' , {title: 'Manage Products'});
 });
 router.post('/products', checkWareHouse, ProductsController.upload.single('image'),ProductsController.StoreProduct);
 router.get('/api/products', checkWareHouse, ProductsController.getProducts);
@@ -30,7 +30,7 @@ router.post('/products/update', checkWareHouse, ProductsController.upload.single
 // categories routes
 
 router.get('/Categories', checkWareHouse, (req, res) => {
-    res.render('wareHouse/Categories');
+    res.render('wareHouse/Categories' , {title: 'Manage Categories'});
 });
 router.get('/api/categories', checkWareHouse, CategoriesController.getCategories);
 router.post('/categories', checkWareHouse, CategoriesController.addCategory);
@@ -49,7 +49,7 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/orders', checkWareHouse, (req, res) => {
-    res.render('wareHouse/orders');
+    res.render('wareHouse/orders' , {title: 'Manage Orders'});
 });
 router.get('/api/orders', checkWareHouse, OrdersController.getOrders);
 router.get('/api/orders/pending', checkWareHouse, HomeController.CountPendingOrders);
@@ -58,10 +58,6 @@ router.get('/api/orders/completed', checkWareHouse, HomeController.CountComplete
 
 router.get('/settings', (req, res) => {
     res.render('wareHouse/settings');
-});
-
-router.get('/suppliers', (req, res) => {
-    res.render('wareHouse/suppliers');
 });
 
 module.exports = router;
