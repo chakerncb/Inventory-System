@@ -4,3 +4,4 @@ migrations
 .hintrc
 /storage/products/*
 /storage/invoices/*
+AdminLTE
