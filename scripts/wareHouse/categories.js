@@ -32,16 +32,16 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
             form.reset();
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
-            }
-            , 3000);
+                document.querySelector('.message-success').innerText = '';
+            }, 3000);
             getCategories();
         } else if (result.message) {
             document.querySelector('.message-danger').innerText = result.message;
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
-            }
-            , 3000);
+                document.querySelector('.message-danger').innerText = '';
+            }, 3000);
         }
     } catch (error) {
         console.log(error);
@@ -68,6 +68,7 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
                 form.reset();
                 setTimeout(() => {
                     document.querySelector('.message-success').style.display = 'none';
+                    document.querySelector('.message-success').innerText = '';
                 }
                 , 3000);
                 getCategories();
@@ -76,6 +77,7 @@ document.querySelector('#addCategoryForm').addEventListener('submit', async func
                 document.querySelector('.message-danger').style.display = 'block';
                 setTimeout(() => {
                     document.querySelector('.message-danger').style.display = 'none';
+                    document.querySelector('.message-danger').innerText = '';
                 }
                 , 3000);
             }
@@ -137,6 +139,7 @@ async function deleteCtg(id) {
             
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }, 3000);
             getCategories();
         }
@@ -146,6 +149,7 @@ async function deleteCtg(id) {
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }, 3000);
         }  
         

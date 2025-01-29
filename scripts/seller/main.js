@@ -134,6 +134,7 @@ document.getElementById('newCustomerForm').addEventListener('submit', async (e) 
             form.reset();
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }, 3000);
             getProducts(); 
         } else if (result.message) {
@@ -141,6 +142,7 @@ document.getElementById('newCustomerForm').addEventListener('submit', async (e) 
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }, 3000);
         }
     }
@@ -239,6 +241,7 @@ async function buyProduct(id_P) {
         document.querySelector('.message-success').style.display = 'block';
         setTimeout(() => {
             document.querySelector('.message-success').style.display = 'none';
+            document.querySelector('.message-success').innerText = '';
         }, 3000);
 
         document.querySelectorAll('.quantity-input').forEach(input => {
@@ -354,6 +357,7 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
             document.querySelector('.message-danger').style.display = 'none';
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }, 3000);
             sessionStorage.removeItem('orders');
             document.getElementById('TotalPrice').innerHTML = '0 dz';
@@ -367,6 +371,7 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }, 3000);
         }
     }

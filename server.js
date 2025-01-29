@@ -25,11 +25,13 @@ app.use(session({
 const adminRoutes = require('./routes/admin');
 app.use('/admin',adminRoutes);
 
-// employee routes
+
+// login routes
 
 app.get('/login', (req, res) => {
-    res.render('wareHouse/auth/login');
+    res.render('wareHouse/auth/login' );
 });
+
 app.post('/login', AuthController.login);
 
 app.get('/logout' , (req,res) => {
@@ -41,6 +43,7 @@ app.get('/logout' , (req,res) => {
     });
 });
 
+// wearhouse routes
 
 const wearHouseRoutes = require('./routes/wareHouse');
 app.use('/wareHouse',wearHouseRoutes);

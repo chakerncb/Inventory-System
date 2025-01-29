@@ -197,6 +197,7 @@ document.querySelector('#addProductForm').addEventListener('submit', async funct
             form.reset();
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }, 3000);
             getProducts(); 
         } else if (result.message) {
@@ -204,6 +205,7 @@ document.querySelector('#addProductForm').addEventListener('submit', async funct
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }, 3000);
         }
     } catch (error) {
@@ -234,6 +236,7 @@ document.querySelector('#addProductForm').addEventListener('submit', async funct
                 form.reset();
                 setTimeout(() => {
                     document.querySelector('.message-success').style.display = 'none';
+                    document.querySelector('.message-success').innerText = '';  
                 }, 3000);
                 getProducts(); 
             } else if (result.message) {
@@ -241,6 +244,7 @@ document.querySelector('#addProductForm').addEventListener('submit', async funct
                 document.querySelector('.message-danger').style.display = 'block';
                 setTimeout(() => {
                     document.querySelector('.message-danger').style.display = 'none';
+                    document.querySelector('.message-danger').innerText = '';
                 }, 3000);
             }
             document.querySelector('.modal-title').innerText = 'Add Product';
@@ -271,6 +275,7 @@ async function deleteProduct(id) {
             document.querySelector('.message-danger').style.display = 'none';
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }, 3000);
             getProducts(); // Refresh the products list
         } else if (result.message) {
@@ -278,6 +283,7 @@ async function deleteProduct(id) {
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }, 3000);
         }
     } catch (error) {

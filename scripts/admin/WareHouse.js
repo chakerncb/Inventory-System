@@ -30,6 +30,7 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
             form.reset();
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }, 3000);
             getWarehouses();
         }
@@ -39,6 +40,7 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }, 3000);
         }  
     } catch (error) {
@@ -64,6 +66,7 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
                 form.reset();
                 setTimeout(() => {
                     document.querySelector('.message-success').style.display = 'none';
+                    document.querySelector('.message-success').innerText = '';
                 }, 3000);
                 getWarehouses();
             }
@@ -73,6 +76,7 @@ document.querySelector('form#registrationForm').addEventListener('submit', async
                 document.querySelector('.message-danger').style.display = 'block';
                 setTimeout(() => {
                     document.querySelector('.message-danger').style.display = 'none';
+                    document.querySelector('.message-danger').innerText = '';
                 }, 3000);
             }
         } catch (error) {
@@ -129,6 +133,7 @@ async function deleteWarehouse(id) {
             
             setTimeout(() => {
                 document.querySelector('.message-success').style.display = 'none';
+                document.querySelector('.message-success').innerText = '';
             }, 3000);
             getWarehouses();
         }
@@ -138,6 +143,7 @@ async function deleteWarehouse(id) {
             document.querySelector('.message-danger').style.display = 'block';
             setTimeout(() => {
                 document.querySelector('.message-danger').style.display = 'none';
+                document.querySelector('.message-danger').innerText = '';
             }, 3000);
         }  
         

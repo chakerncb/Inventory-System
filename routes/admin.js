@@ -16,10 +16,8 @@ router.get('/', authMiddleware, (req, res) => {
 });
 
 
-// 
-
 router.get('/login', (req, res) => {
-    res.render('admin/auth/login');
+    res.render('admin/auth/login' );
 });
 
 router.post('/login', AuthController.login);
