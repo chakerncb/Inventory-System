@@ -5,21 +5,21 @@ const jwt = require('jsonwebtoken');
 
 register = async (req, res) => {
     const { name, email, phone , password, confirmPassword } = req.body;
-    let message = '';
+    let errorMessage = '';
 
     if (password.length < 6) {
-        message = 'Password must be at least 6 characters';
-        return res.render('auth/register', { message });
+        errorMessage = 'Password must be at least 6 characters';
+        return res.render('auth/register', { errorMessage });
     }
 
     try {
         const [results] = await db.promise().query('SELECT email FROM admin WHERE email = ?', [email]);
         if (results.length > 0) {
-            message = 'Email is already registered';
-            return res.render('auth/register', { message });
+            errorMessage = 'Email is already registered';
+            return res.render('auth/register', { errorMessage });
         } else if (password !== confirmPassword) {
-            message = 'Passwords do not match';
-            return res.render('auth/register', { message });
+            errorMessage = 'Passwords do not match';
+            return res.render('auth/register', { errorMessage });
         }
 
         // return res.send(req.body);
@@ -27,8 +27,8 @@ register = async (req, res) => {
 
         let hashedPassword = await bcrypt.hash(password, 8);
         await db.promise().query('INSERT INTO admin SET ?', { name, email, phone , password: hashedPassword });
-        message = 'User registered successfully';
-        return res.render('auth/register', { message });
+        errorMessage = 'User registered successfully';
+        return res.render('auth/register', { errorMessage });
 
     } catch (error) {
         console.log(error);
@@ -38,19 +38,19 @@ register = async (req, res) => {
 
 login = (req, res) => {
     const { email, password } = req.body;
-    let message = '';
+    let errorMessage = '';
 
     if (!email || !password) {
-        message = 'Please provide an email and password';
-        return res.render('admin/auth/login', { message });
+        errorMessage = 'Please provide an email and password';
+        return res.render('admin/auth/login', { errorMessage });
     }
 
      let query = 'SELECT * FROM admin WHERE email = ?';
 
      db.query(query, [email], async (error, results) => {
         if (error || results.length === 0) {
-            message = 'Email or Password is incorrect';
-            return res.render('admin/auth/login', { message });
+            errorMessage = 'Email or Password is incorrect';
+            return res.render('admin/auth/login', { errorMessage });
         }
 
         for (let count=0; count < results.length; count++) {
@@ -61,8 +61,8 @@ login = (req, res) => {
                 res.redirect('/admin');
         }
         else {
-            message = 'Email or Password is incorrect';
-            return res.render('admin/auth/login', { message });
+            errorMessage = 'Email or Password is incorrect';
+            return res.render('admin/auth/login', { errorMessage });
         }
     }
 });

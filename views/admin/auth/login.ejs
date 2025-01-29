@@ -25,9 +25,9 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
                 <div class="social-auth-links text-center mb-3 d-grid gap-2">
-                    <% if (typeof message !== 'undefined') { %>
+                    <% if (typeof errorMessage !== 'undefined') { %>
                         <div class="alert alert-danger" role="alert">
-                            <%= message %>
+                            <%= errorMessage %>
                         </div>	
                     <% } %>
                 </div> <!-- /.social-auth-links -->

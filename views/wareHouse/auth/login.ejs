@@ -82,9 +82,9 @@
         <h2>Login</h2>
         
         <!-- Display error message dynamically -->
-        <% if (typeof message !== 'undefined') { %>
+        <% if (typeof errorMessage !== 'undefined') { %>
             <div class="alert alert-danger" role="alert">
-                <%= message %>
+                <%= errorMessage %>
             </div>    
         <% } %>
 

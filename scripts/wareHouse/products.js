@@ -151,7 +151,7 @@ async function getWarehouses() {
         result.forEach(warehouse => {
             const option = document.createElement('option');
             option.value = warehouse.id_w;
-            option.innerText = 'warehouse ' + warehouse.id_w;
+            option.innerText = 'warehouse ' + warehouse.id_w + ' (' + warehouse.description + ')';
             warehousesSelect.appendChild(option);
             warehousesFilter.appendChild(option.cloneNode(true));
         });

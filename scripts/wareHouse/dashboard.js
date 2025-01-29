@@ -5,7 +5,7 @@ async function getLastProducts() {
     const lastProducts = document.querySelector('.latest-Products');
 
     let i = 0;
-    data.forEach(product => {
+    data.reverse().forEach(product => {
         i++;
         if (i > 4) {
             return;
@@ -28,8 +28,7 @@ async function getLastProducts() {
                 </div>
             </div>
         `;	
-    
-});
+    });
 }
 
 
