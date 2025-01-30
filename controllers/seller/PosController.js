@@ -116,9 +116,6 @@ getProduct = async (req, res) => {
 addOrder = async (req, res) => {
     const { orders, customer, warehouse, discount, totalPrice } = req.body;
 
-    console.log(orders , '\n////////////////////////////////');
-
-
     if (!Array.isArray(orders) || orders.length === 0) {
         return res.status(400).json({ message: "please add a product !!" });
     }
@@ -178,9 +175,6 @@ addOrder = async (req, res) => {
                     warehouse: order.id_w
                 });                
             });
-
-
-            console.log(products);
 
             var data = {
                 "currency": "USD",
