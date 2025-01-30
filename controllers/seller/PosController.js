@@ -116,6 +116,9 @@ getProduct = async (req, res) => {
 addOrder = async (req, res) => {
     const { orders, customer, warehouse, discount, totalPrice } = req.body;
 
+    console.log(orders , '\n////////////////////////////////');
+
+
     if (!Array.isArray(orders) || orders.length === 0) {
         return res.status(400).json({ message: "please add a product !!" });
     }
@@ -176,6 +179,9 @@ addOrder = async (req, res) => {
                 });                
             });
 
+
+            console.log(products);
+
             var data = {
                 "currency": "USD",
                 "taxNotation": "vat",
@@ -202,7 +208,7 @@ addOrder = async (req, res) => {
                 "invoiceNumber": order_code,
                 "invoiceDate": new Date(),
                 "products": products.map(product => ({
-                    name: product.name + ' (warehouse ' + product.warehouse + ')',
+                    description: product.name + ' (warehouse ' + product.warehouse + ')',
                     quantity: product.quantity,
                     price: product.price
                 })),
